@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,13 +22,13 @@ interface LoginFormInputs {
 }
 
 export default function Login() {
+  const navigate = useNavigate();
   const { login } = useAuth();
   const [dialog, setDialog] = React.useState({
     open: false,
     title: '제목',
     description: '내용',
     action: '확인',
-    next: '',
   });
 
   const {
@@ -39,20 +39,13 @@ export default function Login() {
 
   async function onSubmit(values: LoginFormInputs) {
     if (await login(values)) {
-      setDialog({
-        open: true,
-        title: '로그인 성공',
-        description: '아주대 개발자 커뮤니티에 오신걸 환영합니다',
-        action: '확인',
-        next: '/',
-      });
+      navigate('/');
     } else {
       setDialog({
         open: true,
         title: '로그인 실패',
         description: '로그인에 실패하였습니다. 아이디와 비밀번호를 확인하세요',
         action: '확인',
-        next: '',
       });
     }
   }
@@ -105,9 +98,7 @@ export default function Login() {
             <AlertDialogDescription>{dialog.description}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <Link to={dialog.next}>
-              <AlertDialogAction autoFocus>{dialog.action}</AlertDialogAction>
-            </Link>
+            <AlertDialogAction autoFocus>{dialog.action}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
