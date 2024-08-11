@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import useAuth from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 interface LoginFormInputs {
   id: string;
@@ -28,6 +28,7 @@ export default function Login() {
     title: '제목',
     description: '내용',
     action: '확인',
+    next: '',
   });
 
   const {
@@ -43,6 +44,7 @@ export default function Login() {
         title: '로그인 성공',
         description: '아주대 개발자 커뮤니티에 오신걸 환영합니다',
         action: '확인',
+        next: '/',
       });
     } else {
       setDialog({
@@ -50,6 +52,7 @@ export default function Login() {
         title: '로그인 실패',
         description: '로그인에 실패하였습니다. 아이디와 비밀번호를 확인하세요',
         action: '확인',
+        next: '',
       });
     }
   }

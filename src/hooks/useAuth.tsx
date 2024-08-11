@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { ReactNode, createContext, useContext, useState, useEffect } from 'react';
 
 async function refreshAccessToken() {
   const token = localStorage.getItem('token');
@@ -80,7 +80,7 @@ async function login(values: { id: string; password: string }) {
 
   if (!response.ok) {
     console.log(response);
-    return false;
+    return null;
   } else {
     const token = response.headers.get('Authorization')!.replace('Bearer ', '');
     const refreshToken = response.headers.get('x-refresh-token')!;
@@ -89,7 +89,7 @@ async function login(values: { id: string; password: string }) {
     localStorage.setItem('token', token);
     localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('user', JSON.stringify(data.user));
-    return true;
+    return data.user;
   }
 }
 
@@ -115,30 +115,40 @@ async function logout() {
   localStorage.removeItem('refreshToken');
 }
 
-const useAuth = () => {
+const AuthContext = createContext({
+  isAuth: false,
+  user: { nickname: '', id: '', email: '', joiningDate: '' },
+  postAuth,
+  login,
+  logout,
+});
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuth, setIsAuth] = useState(false);
-  const [user, setUser] = useState(() => {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
-  });
+  const [user, setUser] = useState({ nickname: '', id: '', email: '', joiningDate: '' });
+
+  useEffect(() => {
+    console.log('changed to', isAuth);
+  }, [isAuth]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    setIsAuth(!!token);
+    const user = localStorage.getItem('user');
+
+    if (token && user) {
+      setIsAuth(true);
+      setUser(JSON.parse(user));
+    } else {
+      setIsAuth(false);
+      setUser({ nickname: '', id: '', email: '', joiningDate: '' });
+    }
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('user');
-    }
-  }, [user]);
-
   const handleLogin = async (values: { id: string; password: string }) => {
-    if (await login(values)) {
-      setUser(user);
+    const user = await login(values);
+    if (user != null) {
       setIsAuth(true);
+      setUser(user);
       return true;
     } else {
       return false;
@@ -146,19 +156,16 @@ const useAuth = () => {
   };
 
   const handleLogout = async () => {
-    logout();
-    setUser(null);
+    await logout();
     setIsAuth(false);
+    setUser({ nickname: '', id: '', email: '', joiningDate: '' });
   };
 
-  return {
-    isAuth,
-    user,
-    setUser,
-    postAuth,
-    login: handleLogin,
-    logout: handleLogout,
-  };
+  return (
+    <AuthContext.Provider value={{ isAuth, user, postAuth, login: handleLogin, logout: handleLogout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export default useAuth;
+export const useAuth = () => useContext(AuthContext);
