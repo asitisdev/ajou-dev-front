@@ -47,7 +47,7 @@ export default function Freeboard() {
   };
 
   return (
-    <Card className="w-full max-w-2xl lg:max-w-4xl xl:max-w-7xl">
+    <Card className="w-full max-w-2xl lg:max-w-5xl xl:max-w-7xl">
       <CardHeader className="flex-row">
         <div className="flex flex-col space-y-1.5 w-full">
           <CardTitle>자유게시판</CardTitle>
@@ -94,7 +94,7 @@ export default function Freeboard() {
             ))}
           </TableBody>
         </Table>
-        <Pagination className="flex items-center justify-center w-full">
+        <Pagination className="mt-4">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious to="#" />
