@@ -24,7 +24,10 @@ export default function Root() {
             <Wrench className="h-6 w-6" />
             <span className="sr-only">아주대 개발자 커뮤니티</span>
           </Link>
-          <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap">
+          <Link
+            to="/freeboard"
+            className="text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap"
+          >
             자유게시판
           </Link>
           <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap">
@@ -68,7 +71,7 @@ export default function Root() {
           )}
         </div>
       </header>
-      <main className="flex flex-justify-center items-center min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
+      <main className="flex flex-justify-center items-center min-h-[calc(100vh_-_theme(spacing.16))] w-full flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
         <Outlet />
       </main>
     </div>
