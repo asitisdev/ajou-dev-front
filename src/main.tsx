@@ -8,6 +8,7 @@ import Login from './pages/Login.tsx';
 import Signup from './pages/Signup.tsx';
 import FreeboardList from './pages/FreeboardList.tsx';
 import FreeboardWrite from './pages/FreeboardWrite.tsx';
+import Freeboard from './pages/Freeboard.tsx';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="/signup" element={<Signup />}></Route>
             <Route path="/freeboard" element={<FreeboardList />}></Route>
             <Route path="/freeboard/write" element={<FreeboardWrite />}></Route>
+            <Route path="/freeboard/:postNum" element={<Freeboard />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
