@@ -21,7 +21,7 @@ import { useAuth } from '@/hooks/useAuth';
 import formSchema from '@/schemas/freeboard';
 
 export default function FreeboardWrite() {
-  const { postAuth } = useAuth();
+  const { fetchAuth } = useAuth();
   const [dialog, setDialog] = React.useState({
     open: false,
     title: '제목',
@@ -35,7 +35,7 @@ export default function FreeboardWrite() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const data = await postAuth('/api/normal/create', values);
+    const data = await fetchAuth('/api/normal/create', 'POST', values);
 
     if (data.status === 'success') {
       setDialog({

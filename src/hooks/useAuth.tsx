@@ -29,7 +29,7 @@ async function refreshAccessToken() {
   }
 }
 
-async function postAuth(url: string, payload = {}) {
+async function fetchAuth(url: string, method: string, payload?: object) {
   const token = localStorage.getItem('token');
 
   if (!token) {
@@ -37,7 +37,7 @@ async function postAuth(url: string, payload = {}) {
   }
 
   let response = await fetch(url, {
-    method: 'POST',
+    method,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ async function postAuth(url: string, payload = {}) {
 
   if (response.status === 401) {
     response = await fetch(url, {
-      method: 'POST',
+      method,
       headers: {
         Authorization: `Bearer ${await refreshAccessToken()}`,
         'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ async function logout() {
 const AuthContext = createContext({
   isAuth: false,
   user: { nickname: '', id: '', email: '', joiningDate: '' },
-  postAuth,
+  fetchAuth,
   login,
   logout,
 });
@@ -156,7 +156,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuth, user, postAuth, login: handleLogin, logout: handleLogout }}>
+    <AuthContext.Provider value={{ isAuth, user, fetchAuth, login: handleLogin, logout: handleLogout }}>
       {children}
     </AuthContext.Provider>
   );
