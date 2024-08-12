@@ -1,7 +1,6 @@
 import { ReactNode, createContext, useContext, useState, useEffect } from 'react';
 
 async function refreshAccessToken() {
-  const token = localStorage.getItem('token');
   const refreshToken = localStorage.getItem('refreshToken');
 
   if (!refreshToken) {
@@ -11,7 +10,6 @@ async function refreshAccessToken() {
   const response = await fetch('/api/reissue', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${token}`,
       'x-refresh-token': refreshToken,
     },
     body: null,
@@ -21,14 +19,11 @@ async function refreshAccessToken() {
     console.log(response);
     throw new Error('토큰 재발행 실패');
   } else {
-    const authHeader = response.headers.get('Authorization');
-    const refreshTokenHeader = response.headers.get('x-refresh-token')!;
+    const token = response.headers.get('Authorization')!.replace('Bearer ', '');
+    const refreshToken = response.headers.get('x-refresh-token')!;
 
-    if (authHeader) {
-      const token = authHeader.replace('Bearer ', '');
-      localStorage.setItem('token', token);
-      localStorage.setItem('refreshToken', refreshTokenHeader);
-    }
+    localStorage.setItem('token', token);
+    localStorage.setItem('refreshToken', refreshToken);
 
     return token;
   }
@@ -106,13 +101,12 @@ async function logout() {
     body: null,
   });
 
-  if (!response.ok) {
-    console.log(response);
-    throw new Error('로그아웃 실패');
-  }
-
   localStorage.removeItem('token');
   localStorage.removeItem('refreshToken');
+
+  if (!response.ok) {
+    console.error('로그아웃 실패', response);
+  }
 }
 
 const AuthContext = createContext({
