@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MessageSquare, ThumbsUp } from 'lucide-react';
+import { SquarePen, MessageSquare, ThumbsUp } from 'lucide-react';
 import { Card, CardHeader, CardDescription, CardTitle, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
@@ -12,6 +12,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -47,9 +48,16 @@ export default function Freeboard() {
 
   return (
     <Card className="w-full max-w-2xl lg:max-w-4xl xl:max-w-7xl">
-      <CardHeader>
-        <CardTitle>자유게시판</CardTitle>
-        <CardDescription>아주대 개발자 커뮤니티 자유게시판입니다</CardDescription>
+      <CardHeader className="flex-row">
+        <div className="flex flex-col space-y-1.5 w-full">
+          <CardTitle>자유게시판</CardTitle>
+          <CardDescription>아주대 개발자 커뮤니티 자유게시판입니다</CardDescription>
+        </div>
+        <Button asChild>
+          <Link to="./write">
+            <SquarePen className="mr-2 h-4 w-4" /> 글쓰기
+          </Link>
+        </Button>
       </CardHeader>
       <CardContent>
         <Table>
@@ -86,7 +94,7 @@ export default function Freeboard() {
             ))}
           </TableBody>
         </Table>
-        <Pagination>
+        <Pagination className="flex items-center justify-center w-full">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious to="#" />
