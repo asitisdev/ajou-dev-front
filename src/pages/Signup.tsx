@@ -99,7 +99,7 @@ export default function Signup() {
                     name="id"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>아이디</FormLabel>
+                        <FormLabel required>아이디</FormLabel>
                         <FormControl>
                           <Input placeholder="아이디를 입력해주세요 (최대 32자)" {...field} />
                         </FormControl>
@@ -114,7 +114,7 @@ export default function Signup() {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>비밀번호</FormLabel>
+                        <FormLabel required>비밀번호</FormLabel>
                         <FormControl>
                           <Input type="password" placeholder="비밀번호를 입력해주세요" {...field} />
                         </FormControl>
@@ -143,7 +143,7 @@ export default function Signup() {
                     name="nickname"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>닉네임</FormLabel>
+                        <FormLabel required>닉네임</FormLabel>
                         <FormControl>
                           <Input placeholder="닉네임을 입력해주세요 (최대 32자)" {...field} />
                         </FormControl>
@@ -158,7 +158,7 @@ export default function Signup() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>이메일</FormLabel>
+                        <FormLabel required>이메일</FormLabel>
                         <FormControl>
                           <Input placeholder="email@example.com" {...field} />
                         </FormControl>
