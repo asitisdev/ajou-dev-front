@@ -22,7 +22,7 @@ export default function Root() {
         <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
           <Link to="/" className="flex items-center gap-2 text-lg font-semibold md:text-base">
             <Wrench className="h-6 w-6" />
-            <span className="sr-only">아주대 개발자 커뮤니티</span>
+            <span className="whitespace-nowrap">아주데브</span>
           </Link>
           <Link
             to="/freeboard"
@@ -71,7 +71,7 @@ export default function Root() {
           )}
         </div>
       </header>
-      <main className="flex flex-justify-center items-center min-h-[calc(100vh_-_theme(spacing.16))] w-full flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
+      <main className="flex items-center min-h-[calc(100vh_-_theme(spacing.16))] w-full flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
         <Outlet />
       </main>
     </div>
