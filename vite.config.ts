@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://3.35.105.31/',
+        target: 'https://아주대.커뮤니티.한국',
         changeOrigin: true,
       },
     },
