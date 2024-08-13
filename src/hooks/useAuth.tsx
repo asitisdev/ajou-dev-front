@@ -7,7 +7,7 @@ async function refreshAccessToken() {
     throw new Error('리프레시 토큰이 없습니다');
   }
 
-  const response = await fetch('/api/reissue', {
+  const response = await fetch(import.meta.env.VITE_API_URL + '/api/reissue', {
     method: 'POST',
     headers: {
       'x-refresh-token': refreshToken,
@@ -65,7 +65,7 @@ async function fetchAuth(url: string, method: string, payload?: object) {
 }
 
 async function login(values: { id: string; password: string }) {
-  const response = await fetch('/api/login', {
+  const response = await fetch(import.meta.env.VITE_API_URL + '/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ async function logout() {
   const token = localStorage.getItem('token');
   const refreshToken = localStorage.getItem('refreshToken')!;
 
-  const response = await fetch('/api/logout', {
+  const response = await fetch(import.meta.env.VITE_API_URL + '/api/logout', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

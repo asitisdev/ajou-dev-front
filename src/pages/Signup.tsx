@@ -35,7 +35,7 @@ export default function Signup() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
 
-    const response = await fetch('/api/register', {
+    const response = await fetch(import.meta.env.VITE_API_URL + '/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
