@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '@/hooks/useAuth';
+import ProtectedRoute from './components/ProtectedRoute.tsx';
 import Root from './pages/Root.tsx';
 import Main from './pages/Main.tsx';
 import Login from './pages/Login.tsx';
@@ -21,7 +22,14 @@ createRoot(document.getElementById('root')!).render(
             <Route path="/login" element={<Login />}></Route>
             <Route path="/signup" element={<Signup />}></Route>
             <Route path="/freeboard" element={<FreeboardList />}></Route>
-            <Route path="/freeboard/write" element={<FreeboardWrite />}></Route>
+            <Route
+              path="/freeboard/write"
+              element={
+                <ProtectedRoute>
+                  <FreeboardWrite />
+                </ProtectedRoute>
+              }
+            ></Route>
             <Route path="/freeboard/:postNum" element={<Freeboard />}></Route>
           </Route>
         </Routes>
