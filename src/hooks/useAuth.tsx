@@ -9,8 +9,9 @@ async function refreshAccessToken() {
 
   const response = await fetch(import.meta.env.VITE_API_URL + '/api/reissue', {
     method: 'POST',
+    credentials: 'include',
     headers: {
-      'x-refresh-token': refreshToken,
+      'X-Refresh-Token': refreshToken,
     },
     body: null,
   });
@@ -20,7 +21,7 @@ async function refreshAccessToken() {
     throw new Error('토큰 재발행 실패');
   } else {
     const token = response.headers.get('Authorization')!.replace('Bearer ', '');
-    const refreshToken = response.headers.get('x-refresh-token')!;
+    const refreshToken = response.headers.get('T-Refresh-Token')!;
 
     localStorage.setItem('token', token);
     localStorage.setItem('refreshToken', refreshToken);
@@ -38,6 +39,7 @@ async function fetchAuth(url: string, method: string, payload?: object) {
 
   let response = await fetch(import.meta.env.VITE_API_URL + url, {
     method,
+    credentials: 'include',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -48,6 +50,7 @@ async function fetchAuth(url: string, method: string, payload?: object) {
   if (response.status === 401) {
     response = await fetch(import.meta.env.VITE_API_URL + url, {
       method,
+      credentials: 'include',
       headers: {
         Authorization: `Bearer ${await refreshAccessToken()}`,
         'Content-Type': 'application/json',
@@ -78,7 +81,7 @@ async function login(values: { id: string; password: string }) {
     return null;
   } else {
     const token = response.headers.get('Authorization')!.replace('Bearer ', '');
-    const refreshToken = response.headers.get('x-refresh-token')!;
+    const refreshToken = response.headers.get('X-Refresh-Token')!;
     const data = await response.json();
 
     localStorage.setItem('token', token);
@@ -94,9 +97,10 @@ async function logout() {
 
   const response = await fetch(import.meta.env.VITE_API_URL + '/api/logout', {
     method: 'POST',
+    credentials: 'include',
     headers: {
       Authorization: `Bearer ${token}`,
-      'x-refresh-token': refreshToken,
+      'X-Refresh-Token': refreshToken,
     },
     body: null,
   });
