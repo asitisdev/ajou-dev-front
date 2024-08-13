@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useAuth } from '@/hooks/useAuth';
 
 interface Post {
   postNum: number;
@@ -16,13 +15,14 @@ interface Post {
 
 export default function Main() {
   const { postNum } = useParams();
-  const { fetchAuth } = useAuth();
   const [post, setPost] = React.useState<Post | null>(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchAuth(`/api/normal/${postNum}`, 'GET');
-      console.log(data.post);
+      const data = await fetch(import.meta.env.VITE_API_URL + `/api/normal?post=${postNum}`, { method: 'GET' }).then(
+        (response) => response.json()
+      );
+
       setPost(data.post);
     };
 
