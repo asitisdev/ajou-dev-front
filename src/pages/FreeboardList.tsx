@@ -15,23 +15,26 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useAuth } from '@/hooks/useAuth';
 
 interface Post {
   postNum: number;
   title: string;
   user: string;
   postingDate: string;
+  visit: number;
+  like: number;
+  comment: number;
 }
 
 export default function Freeboard() {
-  const { fetchAuth } = useAuth();
   const [posts, setPosts] = React.useState<Array<Post | null>>([null, null, null, null, null, null, null, null]);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchAuth('/api/normal/list?page=0', 'GET');
-      console.log(data.posts.content);
+      const data = await fetch(import.meta.env.VITE_API_URL + '/api/normal/list?page=0', { method: 'GET' }).then(
+        (response) => response.json()
+      );
+
       setPosts(data.posts.content);
     };
 
@@ -74,17 +77,17 @@ export default function Freeboard() {
             {posts.map((post) =>
               post ? (
                 <TableRow>
-                  <TableCell className="text-center">{Math.floor(Math.random() * 100)}</TableCell>
+                  <TableCell className="text-center">{post.visit}</TableCell>
                   <Link to={`./${post.postNum}`}>
                     <TableCell className="flex items-center">
                       <span className="mr-1">{post.title}</span>
                       <Badge variant="secondary" className="ml-1">
                         <MessageSquare className="w-3 h-3 mr-1" />
-                        {Math.floor(Math.random() * 100)}
+                        {post.comment}
                       </Badge>
                       <Badge variant="secondary" className="ml-1">
                         <ThumbsUp className="w-3 h-3 mr-1" />
-                        {Math.floor(Math.random() * 100)}
+                        {post.like}
                       </Badge>
                     </TableCell>
                   </Link>
