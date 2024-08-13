@@ -12,6 +12,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
@@ -25,7 +26,7 @@ interface Post {
 
 export default function Freeboard() {
   const { fetchAuth } = useAuth();
-  const [posts, setPosts] = React.useState<Post[]>([]);
+  const [posts, setPosts] = React.useState<Array<Post | null>>([null, null, null, null, null, null, null, null]);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -70,28 +71,36 @@ export default function Freeboard() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {posts.map((post) => (
-              <TableRow>
-                <TableCell className="text-center">{Math.floor(Math.random() * 100)}</TableCell>
-                <Link to={`./${post.postNum}`}>
-                  <TableCell className="flex items-center">
-                    <span className="mr-1">{post.title}</span>
-                    <Badge variant="secondary" className="ml-1">
-                      <MessageSquare className="w-3 h-3 mr-1" />
-                      {Math.floor(Math.random() * 100)}
-                    </Badge>
-                    <Badge variant="secondary" className="ml-1">
-                      <ThumbsUp className="w-3 h-3 mr-1" />
-                      {Math.floor(Math.random() * 100)}
-                    </Badge>
+            {posts.map((post) =>
+              post ? (
+                <TableRow>
+                  <TableCell className="text-center">{Math.floor(Math.random() * 100)}</TableCell>
+                  <Link to={`./${post.postNum}`}>
+                    <TableCell className="flex items-center">
+                      <span className="mr-1">{post.title}</span>
+                      <Badge variant="secondary" className="ml-1">
+                        <MessageSquare className="w-3 h-3 mr-1" />
+                        {Math.floor(Math.random() * 100)}
+                      </Badge>
+                      <Badge variant="secondary" className="ml-1">
+                        <ThumbsUp className="w-3 h-3 mr-1" />
+                        {Math.floor(Math.random() * 100)}
+                      </Badge>
+                    </TableCell>
+                  </Link>
+                  <TableCell className="w-32 max-w-32 text-center overflow-hidden whitespace-nowrap text-ellipsis">
+                    {post.user}
                   </TableCell>
-                </Link>
-                <TableCell className="w-32 max-w-32 text-center overflow-hidden whitespace-nowrap text-ellipsis">
-                  {post.user}
-                </TableCell>
-                <TableCell className="w-32 text-center">{formatDate(post.postingDate)}</TableCell>
-              </TableRow>
-            ))}
+                  <TableCell className="w-32 text-center">{formatDate(post.postingDate)}</TableCell>
+                </TableRow>
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Skeleton className="flex justify-center items-center h-4"></Skeleton>
+                  </TableCell>
+                </TableRow>
+              )
+            )}
           </TableBody>
         </Table>
         <Pagination className="mt-4">
