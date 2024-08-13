@@ -36,7 +36,7 @@ async function fetchAuth(url: string, method: string, payload?: object) {
     throw new Error('로그인 필요');
   }
 
-  let response = await fetch(url, {
+  let response = await fetch(import.meta.env.VITE_API_URL + url, {
     method,
     headers: {
       Authorization: `Bearer ${token}`,
@@ -46,7 +46,7 @@ async function fetchAuth(url: string, method: string, payload?: object) {
   });
 
   if (response.status === 401) {
-    response = await fetch(url, {
+    response = await fetch(import.meta.env.VITE_API_URL + url, {
       method,
       headers: {
         Authorization: `Bearer ${await refreshAccessToken()}`,
