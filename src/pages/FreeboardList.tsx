@@ -1,20 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { SquarePen, MessageSquare, ThumbsUp } from 'lucide-react';
 import { Card, CardHeader, CardDescription, CardTitle, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
+
+interface PageInfo {
+  first: boolean;
+  last: boolean;
+  totalPages: number;
+}
 
 interface Post {
   postNum: number;
@@ -27,19 +34,25 @@ interface Post {
 }
 
 export default function Freeboard() {
+  const [searchParams] = useSearchParams();
   const [posts, setPosts] = React.useState<Array<Post | null>>([null, null, null, null, null, null, null, null]);
+  const [pageInfo, setPageInfo] = React.useState<PageInfo | null>(null);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const page = parseInt(searchParams.get('page') || '1');
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch(import.meta.env.VITE_API_URL + '/api/normal/list?page=0', { method: 'GET' }).then(
-        (response) => response.json()
-      );
+      const data = await fetch(import.meta.env.VITE_API_URL + `/api/normal/list?page=${page - 1}`, {
+        method: 'GET',
+      }).then((response) => response.json());
 
       setPosts(data.posts.content);
+      setPageInfo({ first: data.posts.first, last: data.posts.last, totalPages: data.posts.totalPages });
     };
 
+    setOpen(false);
     fetchData();
-  }, []);
+  }, [page]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -106,30 +119,36 @@ export default function Freeboard() {
             )}
           </TableBody>
         </Table>
-        <Pagination className="mt-4">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious to="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink to="#" isActive>
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink to="#">2</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink to="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext to="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        {pageInfo && (
+          <div className="mx-auto flex w-full justify-center gap-1 mt-4">
+            <PaginationPrevious
+              to={`?page=${page - 1}`}
+              className={cn({ 'pointer-events-none opacity-50': pageInfo.first })}
+            />
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="outline">{`${page} / ${pageInfo.totalPages} 페이지`}</Button>
+              </PopoverTrigger>
+              <PopoverContent className="p-1">
+                <Pagination>
+                  <PaginationContent className="grid gap-1 grid-cols-5 lg:grid-cols-10">
+                    {Array.from({ length: pageInfo.totalPages }).map((_, idx) => (
+                      <PaginationItem key={idx}>
+                        <PaginationLink to={`?page=${idx + 1}`} isActive={page === idx + 1} className="w-8 h-8">
+                          {idx + 1}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                  </PaginationContent>
+                </Pagination>
+              </PopoverContent>
+            </Popover>
+            <PaginationNext
+              to={`?page=${page + 1}`}
+              className={cn({ 'pointer-events-none opacity-50': pageInfo.last })}
+            />
+          </div>
+        )}
       </CardContent>
     </Card>
   );
