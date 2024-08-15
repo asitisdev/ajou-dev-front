@@ -80,18 +80,18 @@ export default function Freeboard() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-20 text-center">조회수</TableHead>
+              <TableHead className="w-20 text-center ellipsis">조회수</TableHead>
               <TableHead>제목</TableHead>
-              <TableHead className="w-32 text-center">작성자</TableHead>
-              <TableHead className="w-32 text-center">작성일</TableHead>
+              <TableHead className="w-32 text-center ellipsis">작성자</TableHead>
+              <TableHead className="w-32 text-center ellipsis">작성일</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {posts.map((post, index) =>
               post ? (
                 <TableRow key={post.postNum}>
-                  <TableCell className="text-center">{post.visit}</TableCell>
-                  <TableCell className="">
+                  <TableCell className="text-center ellipsis">{post.visit}</TableCell>
+                  <TableCell className="ellipsis">
                     <Link to={`./${post.postNum}`} className="flex items-center w-full h-full">
                       <span className="mr-1">{post.title}</span>
                       <Badge variant="secondary" className="ml-1">
@@ -104,10 +104,8 @@ export default function Freeboard() {
                       </Badge>
                     </Link>
                   </TableCell>
-                  <TableCell className="w-32 max-w-32 text-center overflow-hidden whitespace-nowrap text-ellipsis">
-                    {post.user}
-                  </TableCell>
-                  <TableCell className="w-32 text-center">{formatDate(post.postingDate)}</TableCell>
+                  <TableCell className="text-center ellipsis">{post.user}</TableCell>
+                  <TableCell className="text-center ellipsis">{formatDate(post.postingDate)}</TableCell>
                 </TableRow>
               ) : (
                 <TableRow key={index}>

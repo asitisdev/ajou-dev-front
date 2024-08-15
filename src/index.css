@@ -67,3 +67,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.ellipsis {
+  @apply text-ellipsis overflow-hidden whitespace-nowrap;
+}
