@@ -126,10 +126,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState({ nickname: '', id: '', email: '', joiningDate: '' });
 
   useEffect(() => {
-    console.log('changed to', isAuth);
-  }, [isAuth]);
-
-  useEffect(() => {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
 
