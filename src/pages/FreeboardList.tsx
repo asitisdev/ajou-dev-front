@@ -74,12 +74,12 @@ export default function Freeboard() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {posts.map((post) =>
+            {posts.map((post, index) =>
               post ? (
-                <TableRow>
+                <TableRow key={post.postNum}>
                   <TableCell className="text-center">{post.visit}</TableCell>
-                  <Link to={`./${post.postNum}`}>
-                    <TableCell className="flex items-center">
+                  <TableCell className="">
+                    <Link to={`./${post.postNum}`} className="flex items-center w-full h-full">
                       <span className="mr-1">{post.title}</span>
                       <Badge variant="secondary" className="ml-1">
                         <MessageSquare className="w-3 h-3 mr-1" />
@@ -89,15 +89,15 @@ export default function Freeboard() {
                         <ThumbsUp className="w-3 h-3 mr-1" />
                         {post.like}
                       </Badge>
-                    </TableCell>
-                  </Link>
+                    </Link>
+                  </TableCell>
                   <TableCell className="w-32 max-w-32 text-center overflow-hidden whitespace-nowrap text-ellipsis">
                     {post.user}
                   </TableCell>
                   <TableCell className="w-32 text-center">{formatDate(post.postingDate)}</TableCell>
                 </TableRow>
               ) : (
-                <TableRow>
+                <TableRow key={index}>
                   <TableCell colSpan={4}>
                     <Skeleton className="flex justify-center items-center h-4"></Skeleton>
                   </TableCell>
