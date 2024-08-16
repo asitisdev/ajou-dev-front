@@ -12,6 +12,7 @@ import {
   Paperclip,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Toaster } from '@/components/ui/sonner';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -163,6 +164,7 @@ export default function Root() {
       <main className="flex items-center min-h-[calc(100vh_-_theme(spacing.16))] w-full flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
         <Outlet />
       </main>
+      <Toaster />
     </div>
   );
 }
