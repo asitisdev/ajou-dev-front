@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '@/hooks/useAuth';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 import Root from './pages/Root.tsx';
+import NotFound from './pages/NotFound.tsx';
 import Main from './pages/Main.tsx';
 import Login from './pages/Login.tsx';
 import Signup from './pages/Signup.tsx';
@@ -31,6 +32,7 @@ createRoot(document.getElementById('root')!).render(
               }
             ></Route>
             <Route path="/freeboard/:postNum" element={<Freeboard />}></Route>
+            <Route path="/*" element={<NotFound />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
