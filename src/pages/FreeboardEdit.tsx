@@ -39,7 +39,7 @@ export default function FreeboardEdit() {
 
     if (data.status === 'success') {
       navigation(`/freeboard/${postNum}`);
-      toast.success('게시글 작성 완료', { description: '게시글을 수정하였습니다' });
+      toast.success('게시글 수정 완료', { description: '게시글을 수정하였습니다' });
     } else {
       toast.success('게시글 수정 실패', { description: '게시글 수정에 실패하였습니다. 관리자에게 문의하세요.' });
     }
