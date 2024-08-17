@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
@@ -22,7 +22,7 @@ interface CommentProps {
 }
 
 export default function Comment({ comments, onCommentsChange }: CommentProps) {
-  const { isAuth, fetchAuth } = useAuth();
+  const { user, isAuth, fetchAuth } = useAuth();
   const { postNum } = useParams();
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -52,11 +52,23 @@ export default function Comment({ comments, onCommentsChange }: CommentProps) {
                 <Avatar className="w-10 h-10 border">
                   <AvatarFallback>{comment.user.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <div className="grid gap-1.5">
+                <div className="w-full grid gap-1.5">
                   <div className="flex items-center gap-2">
                     <div className="font-semibold">{comment.user}</div>
                     <div className="text-gray-500 text-xs dark:text-gray-400">
                       {relativeTime(comment.commentingDate)}
+                    </div>
+                    <div className="ml-auto flex gap-2">
+                      <Link to="#" className="text-sm text-muted-foreground">
+                        대댓글
+                      </Link>
+                      {user.id === comment.id && (
+                        <>
+                          <Link to="#" className="text-sm text-muted-foreground">
+                            삭제
+                          </Link>
+                        </>
+                      )}
                     </div>
                   </div>
                   <div>{comment.commentBody}</div>
