@@ -1,6 +1,15 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { EllipsisVertical } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
 import Comment from '@/components/Comment';
@@ -10,6 +19,7 @@ interface Post {
   title: string;
   textBody: string;
   user: string;
+  id: string;
   like: number;
   visit: number;
   postingDate: string;
@@ -25,6 +35,7 @@ interface Comment {
 
 export default function Main() {
   const { postNum } = useParams();
+  const { user } = useAuth();
   const [post, setPost] = React.useState<Post | null>(null);
   const [comments, setComments] = React.useState<Array<Comment>>([]);
 
@@ -57,17 +68,34 @@ export default function Main() {
 
   return (
     <Card className="w-full max-w-2xl lg:max-w-5xl xl:max-w-7xl">
-      <CardHeader>
-        <CardTitle>{post ? post.title : <Skeleton className="h-6 w-[400px]" />}</CardTitle>
-        <CardDescription>
-          <p>
-            {post ? (
-              `${post.user} \u00A0|\u00A0 ${formatDate(post.postingDate)}`
-            ) : (
-              <Skeleton className="h-3.5 w-[100px]" />
-            )}
-          </p>
-        </CardDescription>
+      <CardHeader className="flex-row">
+        <div className="flex flex-col flex-grow space-y-1.5">
+          <CardTitle>{post ? post.title : <Skeleton className="h-6 w-[400px]" />}</CardTitle>
+          <CardDescription>
+            <p>
+              {post ? (
+                `${post.user} \u00A0|\u00A0 ${formatDate(post.postingDate)}`
+              ) : (
+                <Skeleton className="h-3.5 w-[100px]" />
+              )}
+            </p>
+          </CardDescription>
+        </div>
+        {post?.id === user.id && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost">
+                <EllipsisVertical className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link to="./edit">수정하기</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="text-destructive">삭제하기</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </CardHeader>
       <CardContent className="whitespace-pre-wrap">
         {post ? post.textBody : <Skeleton className="h-4 w-[300px]" />}
