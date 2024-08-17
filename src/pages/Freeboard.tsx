@@ -70,16 +70,12 @@ export default function Main() {
     <Card className="w-full max-w-2xl lg:max-w-5xl xl:max-w-7xl">
       <CardHeader className="flex-row">
         <div className="flex flex-col flex-grow space-y-1.5">
-          <CardTitle>{post ? post.title : <Skeleton className="h-6 w-[400px]" />}</CardTitle>
-          <CardDescription>
-            <p>
-              {post ? (
-                `${post.user} \u00A0|\u00A0 ${formatDate(post.postingDate)}`
-              ) : (
-                <Skeleton className="h-3.5 w-[100px]" />
-              )}
-            </p>
-          </CardDescription>
+          {post ? <CardTitle>{post.title}</CardTitle> : <Skeleton className="h-6 w-[400px]" />}
+          {post ? (
+            <CardDescription>{`${post.user} \u00A0|\u00A0 ${formatDate(post.postingDate)}`}</CardDescription>
+          ) : (
+            <Skeleton className="h-3.5 w-[100px]" />
+          )}
         </div>
         {post?.id === user.id && (
           <DropdownMenu>
