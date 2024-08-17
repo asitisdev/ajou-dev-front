@@ -10,6 +10,7 @@ import Login from './pages/Login.tsx';
 import Signup from './pages/Signup.tsx';
 import FreeboardList from './pages/FreeboardList.tsx';
 import FreeboardWrite from './pages/FreeboardWrite.tsx';
+import FreeboardEdit from './pages/FreeboardEdit.tsx';
 import Freeboard from './pages/Freeboard.tsx';
 import './index.css';
 
@@ -32,6 +33,7 @@ createRoot(document.getElementById('root')!).render(
               }
             ></Route>
             <Route path="/freeboard/:postNum" element={<Freeboard />}></Route>
+            <Route path="/freeboard/:postNum/edit" element={<FreeboardEdit />}></Route>
             <Route path="/*" element={<NotFound />}></Route>
           </Route>
         </Routes>

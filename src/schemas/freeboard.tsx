@@ -5,12 +5,19 @@ const schema = z.object({
     .string({
       required_error: '제목을 작성해주세요',
     })
+    .min(1, {
+      message: '제목을 작성해주세요',
+    })
     .max(255, {
       message: '제목의 길이는 최대 255 글자입니다',
     }),
-  textBody: z.string({
-    required_error: '본문을 작성해주세요',
-  }),
+  textBody: z
+    .string({
+      required_error: '본문을 작성해주세요',
+    })
+    .min(1, {
+      message: '본문을 작성해주세요',
+    }),
 });
 
 export default schema;
