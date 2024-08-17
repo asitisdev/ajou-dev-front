@@ -59,9 +59,11 @@ export default function Comment({ comments, onCommentsChange }: CommentProps) {
                       {relativeTime(comment.commentingDate)}
                     </div>
                     <div className="ml-auto flex gap-2">
-                      <Link to="#" className="text-sm text-muted-foreground">
-                        대댓글
-                      </Link>
+                      {isAuth && (
+                        <Link to="#" className="text-sm text-muted-foreground">
+                          대댓글
+                        </Link>
+                      )}
                       {user.id === comment.id && (
                         <>
                           <Link to="#" className="text-sm text-muted-foreground">
