@@ -6,6 +6,7 @@
 
 html {
   font-family: Pretendard;
+  word-break: keep-all;
 }
 
 @layer base {
