@@ -1,4 +1,5 @@
 export interface Comment {
+  parent: number;
   commentNum: number;
   commentBody: string;
   commentingDate: string;
