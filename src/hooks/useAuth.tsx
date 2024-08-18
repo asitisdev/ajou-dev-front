@@ -21,7 +21,7 @@ async function refreshAccessToken() {
     throw new Error('토큰 재발행 실패');
   } else {
     const token = response.headers.get('Authorization')!.replace('Bearer ', '');
-    const refreshToken = response.headers.get('T-Refresh-Token')!;
+    const refreshToken = response.headers.get('X-Refresh-Token')!;
 
     localStorage.setItem('token', token);
     localStorage.setItem('refreshToken', refreshToken);
