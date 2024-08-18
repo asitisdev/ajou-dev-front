@@ -4,7 +4,7 @@ export interface Post {
   textBody: string;
   user: string;
   id: string;
-  isLiked: boolean;
+  liked: boolean;
   like: number;
   visit: number;
   postingDate: string;
