@@ -35,7 +35,7 @@ export default function Main() {
     };
 
     fetchData();
-  }, []);
+  }, [isAuth]);
 
   const handleLike = async () => {
     const data = await fetchAuth(`/api/like?post=${postNum}`, 'GET');
