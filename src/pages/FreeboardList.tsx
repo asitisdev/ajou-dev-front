@@ -94,14 +94,18 @@ export default function Freeboard() {
                   <TableCell className="ellipsis">
                     <Link to={`./${post.postNum}`} className="flex items-center w-full h-full">
                       <span className="mr-1">{post.title}</span>
-                      <Badge variant="secondary" className="ml-1">
-                        <MessageSquare className="w-3 h-3 mr-1" />
-                        {post.comment}
-                      </Badge>
-                      <Badge variant="secondary" className="ml-1">
-                        <ThumbsUp className="w-3 h-3 mr-1" />
-                        {post.like}
-                      </Badge>
+                      {post.comment != 0 && (
+                        <Badge variant="secondary" className="ml-1">
+                          <MessageSquare className="w-3 h-3 mr-1" />
+                          {post.comment}
+                        </Badge>
+                      )}
+                      {post.like != 0 && (
+                        <Badge variant="secondary" className="ml-1">
+                          <ThumbsUp className="w-3 h-3 mr-1" />
+                          {post.like}
+                        </Badge>
+                      )}
                     </Link>
                   </TableCell>
                   <TableCell className="text-center ellipsis">{post.user}</TableCell>
