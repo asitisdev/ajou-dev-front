@@ -29,11 +29,8 @@ export default function CommentList({ comments, onCommentsChange }: CommentProps
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">댓글</h3>
         <div className="space-y-2">
           {comments.map((comment) => (
-            <>
-              <div
-                className={cn('border rounded-lg p-4', { 'ml-10': comment.commentNum !== comment.parent })}
-                key={comment.commentNum}
-              >
+            <React.Fragment key={comment.commentNum}>
+              <div className={cn('border rounded-lg p-4', { 'ml-10': comment.commentNum !== comment.parent })}>
                 <div className="flex items-start gap-4">
                   <Avatar className="w-10 h-10 border">
                     <AvatarFallback>{comment.user.charAt(0)}</AvatarFallback>
@@ -70,7 +67,7 @@ export default function CommentList({ comments, onCommentsChange }: CommentProps
               {comment.commentNum === replyingTo && (
                 <CommentWrite comments={comments} onCommentsChange={onCommentsChange} parent={comment.parent} />
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
       </div>
