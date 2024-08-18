@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
-import CommentView from '@/components/Comment';
+import CommentList from '@/components/CommentList';
 import { Post, Comment } from '@/types';
 
 export default function Main() {
@@ -101,7 +101,7 @@ export default function Main() {
           </div>
         )}
         <Separator className="my-6" />
-        <CommentView comments={comments} onCommentsChange={setComments} />
+        <CommentList comments={comments} onCommentsChange={setComments} />
       </CardContent>
     </Card>
   );
