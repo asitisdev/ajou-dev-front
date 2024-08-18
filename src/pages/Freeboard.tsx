@@ -12,26 +12,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
-import Comment from '@/components/Comment';
-
-interface Post {
-  postNum: number;
-  title: string;
-  textBody: string;
-  user: string;
-  id: string;
-  like: number;
-  visit: number;
-  postingDate: string;
-}
-
-interface Comment {
-  commentNum: number;
-  commentBody: string;
-  commentingDate: string;
-  id: string;
-  user: string;
-}
+import CommentView from '@/components/Comment';
+import { Post, Comment } from '@/types';
 
 export default function Main() {
   const { postNum } = useParams();
@@ -46,7 +28,6 @@ export default function Main() {
       );
 
       setPost(data.post);
-      console.log(data.comments.content);
       setComments(data.comments.content);
     };
 
@@ -96,7 +77,7 @@ export default function Main() {
       <CardContent className="whitespace-pre-wrap">
         {post ? post.textBody : <Skeleton className="h-4 w-[300px]" />}
         <Separator className="my-6" />
-        <Comment comments={comments} onCommentsChange={setComments} />
+        <CommentView comments={comments} onCommentsChange={setComments} />
       </CardContent>
     </Card>
   );

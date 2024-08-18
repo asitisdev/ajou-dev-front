@@ -16,21 +16,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { Post } from '@/types';
 
 interface PageInfo {
   first: boolean;
   last: boolean;
   totalPages: number;
-}
-
-interface Post {
-  postNum: number;
-  title: string;
-  user: string;
-  postingDate: string;
-  visit: number;
-  like: number;
-  comment: number;
 }
 
 export default function Freeboard() {

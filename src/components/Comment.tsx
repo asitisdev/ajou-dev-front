@@ -7,21 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useAuth } from '@/hooks/useAuth';
 import { relativeTime } from '@/lib/utils';
+import { CommentProps } from '@/types';
 
-interface Comment {
-  commentNum: number;
-  commentBody: string;
-  commentingDate: string;
-  id: string;
-  user: string;
-}
-
-interface CommentProps {
-  comments: Array<Comment>;
-  onCommentsChange: React.Dispatch<React.SetStateAction<Array<Comment>>>;
-}
-
-export default function Comment({ comments, onCommentsChange }: CommentProps) {
+export default function CommentView({ comments, onCommentsChange }: CommentProps) {
   const { user, isAuth, fetchAuth } = useAuth();
   const { postNum } = useParams();
 
