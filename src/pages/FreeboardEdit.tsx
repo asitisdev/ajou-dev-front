@@ -62,7 +62,7 @@ export default function FreeboardEdit() {
                     <FormItem>
                       <FormLabel>제목</FormLabel>
                       <FormControl>
-                        <Input placeholder="제목을 작성해주세요" {...field} />
+                        <Input placeholder="제목을 수정해주세요" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -77,7 +77,7 @@ export default function FreeboardEdit() {
                     <FormItem>
                       <FormLabel>본문</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="본문을 작성해주세요" {...field} className="h-96" />
+                        <Textarea placeholder="본문을 수정해주세요" {...field} className="h-96" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -86,7 +86,7 @@ export default function FreeboardEdit() {
               </div>
               <div className="grid gap-2 mt-4">
                 <Button type="submit" className="w-full">
-                  글쓰기
+                  게시글 수정하기
                 </Button>
               </div>
             </div>
