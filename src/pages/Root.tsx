@@ -24,6 +24,7 @@ import {
 import { Sheet, SheetHeader, SheetTitle, SheetDescription, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
+import { Dialog } from '@/hooks/useDialog';
 import { cn } from '@/lib/utils';
 
 export default function Root() {
@@ -165,6 +166,7 @@ export default function Root() {
         <Outlet />
       </main>
       <Toaster />
+      <Dialog />
     </div>
   );
 }
