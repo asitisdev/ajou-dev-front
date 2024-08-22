@@ -46,7 +46,7 @@ export default function CommentView({ onCommentsChange, parent }: CommentProps &
             }
             disabled={!isAuth}
             className="py-6 px-4"
-            autoFocus
+            autoFocus={!!parent}
           />
           <Button type="submit" className="flex items-center py-6 px-4" disabled={!isAuth}>
             <Pencil className="mr-2 w-4 h-4" />
