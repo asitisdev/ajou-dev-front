@@ -17,9 +17,14 @@ const schema = z
         message: '비밀번호 길이는 최대 32 글자입니다',
       }),
     confirmPassword: z.string({ required_error: '비밀번호를 다시 입력해주세요' }),
-    nickname: z.string({ required_error: '닉네임은 필수 입력 항목입니다' }).max(32, {
-      message: '닉네임 길이는 최대 32 글자입니다',
-    }),
+    nickname: z
+      .string({ required_error: '닉네임은 필수 입력 항목입니다' })
+      .max(32, {
+        message: '닉네임 길이는 최대 32 글자입니다',
+      })
+      .regex(/^[a-zA-Z0-9가-힣@$!%*?&]/, {
+        message: '닉네임은 영문, 숫자, 한글, 특수문자만 포함할 수 있습니다.',
+      }),
     email: z.string({ required_error: '이메일은 필수 입력 항목입니다' }).email({
       message: '잘못된 이메일 형식입니다',
     }),
