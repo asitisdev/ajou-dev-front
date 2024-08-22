@@ -15,6 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import UserDropdown from '@/components/UserDropdown';
 import { cn } from '@/lib/utils';
 import { Post } from '@/types';
 
@@ -100,7 +101,7 @@ export default function Freeboard() {
                     </Link>
                   </TableCell>
                   <TableCell className="text-center ellipsis">
-                    <Link to={`/members/${post.id}/posts`}>{post.user}</Link>
+                    <UserDropdown id={post.id} nickname={post.user} />
                   </TableCell>
                   <TableCell className="text-center ellipsis">{formatDate(post.postingDate)}</TableCell>
                 </TableRow>

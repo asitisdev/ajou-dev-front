@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { CornerDownRight } from 'lucide-react';
 import { toast } from 'sonner';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -14,6 +13,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import UserDropdown from '@/components/UserDropdown';
 import { useAuth } from '@/hooks/useAuth';
 import { relativeTime } from '@/lib/utils';
 import { CommentProps } from '@/types';
@@ -76,9 +76,7 @@ export default function CommentList({ comments, onCommentsChange }: CommentProps
                         </Avatar>
                         <div className="w-full grid gap-1.5">
                           <div className="flex items-center gap-2">
-                            <div className="font-semibold">
-                              <Link to={`/members/${comment.id}/posts`}>{comment.user}</Link>
-                            </div>
+                            <UserDropdown id={comment.id} nickname={comment.user} className="font-semibold" />
                             <div className="text-gray-500 text-xs dark:text-gray-400">
                               {relativeTime(comment.commentingDate)}
                             </div>
