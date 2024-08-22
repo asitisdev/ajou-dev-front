@@ -131,7 +131,7 @@ export default function Root() {
               <DropdownMenuTrigger asChild>
                 <Avatar className="w-10 h-10 border">
                   <AvatarImage
-                    src={import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${user.id}`}
+                    src={user.id && import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${user.id}`}
                     alt={user.nickname}
                   />
                   <AvatarFallback>{user.nickname.charAt(0)}</AvatarFallback>

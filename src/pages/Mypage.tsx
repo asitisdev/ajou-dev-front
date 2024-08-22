@@ -25,7 +25,7 @@ import formSchema from '@/schemas/user';
 
 export default function Mypage() {
   const { setDialog } = useDialog();
-  const { user, setUser, fetchAuth } = useAuth();
+  const { user, setUser, fetchAuth, logout, login } = useAuth();
   const [open, setOpen] = React.useState(false);
   const [password, setPassword] = React.useState('');
 
@@ -48,6 +48,8 @@ export default function Mypage() {
   };
 
   const handleConfirm = async () => {
+    if (/^[ㄱ-ㅎ가-힣]*$/.test(password)) return;
+
     setPassword('');
     setOpen(false);
 
@@ -64,6 +66,12 @@ export default function Mypage() {
 
     if (data.status === 'success') {
       setUser(data.user);
+
+      if (values.id) {
+        await logout();
+        await login({ id: data.user.id, password });
+      }
+
       localStorage.setItem('user', JSON.stringify(data.user));
       toast.success('회원 정보 변경 성공');
     } else {
@@ -105,7 +113,7 @@ export default function Mypage() {
           <div className="flex justify-center items-center my-4">
             <Avatar className="relative w-32 h-32 border">
               <AvatarImage
-                src={import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${user.id}`}
+                src={user.id && import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${user.id}`}
                 alt={user.nickname}
               />
               <AvatarFallback className="text-5xl">{user.nickname.charAt(0)}</AvatarFallback>
@@ -186,27 +194,39 @@ export default function Mypage() {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>비밀번호 확인</DialogTitle>
-            <DialogDescription>
-              정말 회원 정보를 수정하시겠습니까? 수정하시려면 비밀번호를 입력해주세요.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex items-center gap-4">
-            <Label htmlFor="password" className="text-right">
-              비밀번호
-            </Label>
-            <Input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="col-span-3"
-            />
-          </div>
-          <DialogFooter>
-            <Button onClick={handleConfirm}>수정</Button>
-          </DialogFooter>
+          <form onSubmit={(e) => e.preventDefault()} className="group grid gap-4">
+            <DialogHeader>
+              <DialogTitle>비밀번호 확인</DialogTitle>
+              <DialogDescription>
+                정말 회원 정보를 수정하시겠습니까? 수정하시려면 비밀번호를 입력해주세요.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex items-center gap-4">
+              <Label htmlFor="password" className="text-right">
+                비밀번호
+              </Label>
+              <Input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                pattern="^[^ㄱ-ㅎ가-힣]*$"
+                className="col-span-3"
+              />
+            </div>
+            <p className="text-center text-sm font-medium text-destructive hidden duration-200 group-invalid:block group-invalid:animate-in group-invalid:fade-in-0">
+              비밀번호는 영문, 숫자, 특수문자로 구성되어야 합니다
+            </p>
+            <DialogFooter>
+              <Button
+                type="submit"
+                onClick={handleConfirm}
+                className="group-invalid:pointer-events-none group-invalid:opacity-30"
+              >
+                수정
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
     </>
