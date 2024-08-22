@@ -16,7 +16,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { Post } from '@/types';
+import { User, Post } from '@/types';
 
 interface PageInfo {
   first: boolean;
@@ -28,23 +28,30 @@ export default function PostList() {
   const { userId } = useParams();
   const [searchParams] = useSearchParams();
   const [posts, setPosts] = React.useState<Array<Post | null>>([null, null, null, null, null]);
+  const [user, setUser] = React.useState<User | null>(null);
   const [pageInfo, setPageInfo] = React.useState<PageInfo | null>(null);
   const [open, setOpen] = React.useState<boolean>(false);
   const page = parseInt(searchParams.get('page') || '1');
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch(import.meta.env.VITE_API_URL + `/api/member/posts?user=${userId}&page=${page - 1}`, {
+      const userData = await fetch(import.meta.env.VITE_API_URL + `/api/member?user=${userId}`, {
         method: 'GET',
       }).then((response) => response.json());
 
-      setPosts(data.posts.content);
-      setPageInfo({ first: data.posts.first, last: data.posts.last, totalPages: data.posts.totalPages });
+      setUser(userData.user);
+
+      const postData = await fetch(import.meta.env.VITE_API_URL + `/api/member/posts?user=${userId}&page=${page - 1}`, {
+        method: 'GET',
+      }).then((response) => response.json());
+
+      setPosts(postData.posts.content);
+      setPageInfo({ first: postData.posts.first, last: postData.posts.last, totalPages: postData.posts.totalPages });
     };
 
     setOpen(false);
     fetchData();
-  }, [page]);
+  }, [userId, page]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -59,8 +66,12 @@ export default function PostList() {
     <Card className="w-full max-w-2xl lg:max-w-5xl xl:max-w-7xl">
       <CardHeader className="flex-row">
         <div className="flex flex-col space-y-1.5 w-full">
-          <CardTitle>{userId}</CardTitle>
-          <CardDescription>{`${userId}님이 작성하신 게시글 목록입니다`}</CardDescription>
+          {user ? <CardTitle>{`${user.nickname} (${user.id})`}</CardTitle> : <Skeleton className="h-6 w-[200px]" />}
+          {user ? (
+            <CardDescription>{`${user.nickname}님이 작성하신 게시글 목록입니다`}</CardDescription>
+          ) : (
+            <Skeleton className="h-3.5 w-[300px]" />
+          )}
         </div>
       </CardHeader>
       <CardContent>

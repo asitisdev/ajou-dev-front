@@ -1,4 +1,5 @@
 import { ReactNode, createContext, useContext, useState, useEffect } from 'react';
+import { User } from '@/types';
 
 async function refreshAccessToken() {
   const refreshToken = localStorage.getItem('refreshToken');
@@ -113,8 +114,6 @@ async function logout() {
     console.error('로그아웃 실패', response);
   }
 }
-
-type User = { nickname: string; id: string; email: string; joiningDate: string };
 
 type AuthContextType = {
   isAuth: boolean;
