@@ -113,13 +113,18 @@ async function logout() {
   }
 }
 
-const AuthContext = createContext({
-  isAuth: false,
-  user: { nickname: '', id: '', email: '', joiningDate: '' },
-  fetchAuth,
-  login,
-  logout,
-});
+type User = { nickname: string; id: string; email: string; joiningDate: string };
+
+type AuthContextType = {
+  isAuth: boolean;
+  user: User;
+  setUser: (user: User) => void;
+  fetchAuth: (url: string, method: string, payload?: object) => Promise<any>;
+  login: (values: { id: string; password: string }) => Promise<boolean>;
+  logout: () => Promise<void>;
+};
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuth, setIsAuth] = useState(false);
@@ -156,10 +161,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuth, user, fetchAuth, login: handleLogin, logout: handleLogout }}>
+    <AuthContext.Provider value={{ isAuth, user, setUser, fetchAuth, login: handleLogin, logout: handleLogout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth는 AuthProvider 내부에서 사용해야 합니다');
+  }
+
+  return context;
+};

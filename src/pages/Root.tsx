@@ -17,7 +17,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
@@ -144,7 +143,11 @@ export default function Root() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>{user.nickname}</DropdownMenuLabel>
+                <DropdownMenuItem asChild>
+                  <Link to="/mypage" className="font-semibold">
+                    {user.nickname}
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>내가 쓴 게시글</DropdownMenuItem>
                 <DropdownMenuItem>내가 쓴 댓글</DropdownMenuItem>
