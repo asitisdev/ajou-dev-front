@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { CornerDownRight } from 'lucide-react';
 import { toast } from 'sonner';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -75,7 +76,9 @@ export default function CommentList({ comments, onCommentsChange }: CommentProps
                         </Avatar>
                         <div className="w-full grid gap-1.5">
                           <div className="flex items-center gap-2">
-                            <div className="font-semibold">{comment.user}</div>
+                            <div className="font-semibold">
+                              <Link to={`/members/${comment.id}/posts`}>{comment.user}</Link>
+                            </div>
                             <div className="text-gray-500 text-xs dark:text-gray-400">
                               {relativeTime(comment.commentingDate)}
                             </div>

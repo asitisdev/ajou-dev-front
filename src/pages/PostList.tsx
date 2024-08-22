@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { SquarePen, MessageSquare, ThumbsUp } from 'lucide-react';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { MessageSquare, ThumbsUp } from 'lucide-react';
 import { Card, CardHeader, CardDescription, CardTitle, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
@@ -24,16 +24,17 @@ interface PageInfo {
   totalPages: number;
 }
 
-export default function Freeboard() {
+export default function PostList() {
+  const { userId } = useParams();
   const [searchParams] = useSearchParams();
-  const [posts, setPosts] = React.useState<Array<Post | null>>([null, null, null, null, null, null, null, null]);
+  const [posts, setPosts] = React.useState<Array<Post | null>>([null, null, null, null, null]);
   const [pageInfo, setPageInfo] = React.useState<PageInfo | null>(null);
   const [open, setOpen] = React.useState<boolean>(false);
   const page = parseInt(searchParams.get('page') || '1');
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch(import.meta.env.VITE_API_URL + `/api/normal/list?page=${page - 1}`, {
+      const data = await fetch(import.meta.env.VITE_API_URL + `/api/member/posts?user=${userId}&page=${page - 1}`, {
         method: 'GET',
       }).then((response) => response.json());
 
@@ -58,14 +59,9 @@ export default function Freeboard() {
     <Card className="w-full max-w-2xl lg:max-w-5xl xl:max-w-7xl">
       <CardHeader className="flex-row">
         <div className="flex flex-col space-y-1.5 w-full">
-          <CardTitle>자유게시판</CardTitle>
-          <CardDescription>아주대 개발자 커뮤니티 자유게시판입니다</CardDescription>
+          <CardTitle>{userId}</CardTitle>
+          <CardDescription>{`${userId}님이 작성하신 게시글 목록입니다`}</CardDescription>
         </div>
-        <Button asChild>
-          <Link to="./write">
-            <SquarePen className="mr-2 h-4 w-4" /> 글쓰기
-          </Link>
-        </Button>
       </CardHeader>
       <CardContent>
         <Table>
@@ -83,7 +79,7 @@ export default function Freeboard() {
                 <TableRow key={post.postNum}>
                   <TableCell className="text-center ellipsis">{post.visit}</TableCell>
                   <TableCell className="ellipsis">
-                    <Link to={`./${post.postNum}`} className="flex items-center w-full h-full">
+                    <Link to={`/freeboard/${post.postNum}`} className="flex items-center w-full h-full">
                       <span className="mr-1">{post.title}</span>
                       {post.comment != 0 && (
                         <Badge variant="secondary" className="ml-1">
@@ -99,9 +95,7 @@ export default function Freeboard() {
                       )}
                     </Link>
                   </TableCell>
-                  <TableCell className="text-center ellipsis">
-                    <Link to={`/members/${post.id}/posts`}>{post.user}</Link>
-                  </TableCell>
+                  <TableCell className="text-center ellipsis">{post.user}</TableCell>
                   <TableCell className="text-center ellipsis">{formatDate(post.postingDate)}</TableCell>
                 </TableRow>
               ) : (
