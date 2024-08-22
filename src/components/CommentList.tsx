@@ -1,7 +1,7 @@
 import React from 'react';
 import { CornerDownRight } from 'lucide-react';
 import { toast } from 'sonner';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -67,6 +67,10 @@ export default function CommentList({ comments, onCommentsChange }: CommentProps
                     ) : (
                       <div className="flex items-start gap-4">
                         <Avatar className="w-10 h-10 border">
+                          <AvatarImage
+                            src={import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${comment.id}`}
+                            alt={comment.user}
+                          />
                           <AvatarFallback>{comment.user.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div className="w-full grid gap-1.5">

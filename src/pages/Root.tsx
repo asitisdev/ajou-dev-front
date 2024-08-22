@@ -1,16 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import {
-  Menu,
-  CircleUser,
-  Wrench,
-  Search,
-  UserRound,
-  MessageCircle,
-  MessageCircleQuestion,
-  Users,
-  Paperclip,
-} from 'lucide-react';
+import { Menu, Wrench, Search, UserRound, MessageCircle, MessageCircleQuestion, Users, Paperclip } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/sonner';
 import {
@@ -21,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetHeader, SheetTitle, SheetDescription, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
 import { Dialog } from '@/hooks/useDialog';
@@ -138,9 +129,13 @@ export default function Root() {
           {isAuth ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="secondary" size="icon" className="rounded-full">
-                  <CircleUser className="h-5 w-5" />
-                </Button>
+                <Avatar className="w-10 h-10 border">
+                  <AvatarImage
+                    src={import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${user.id}`}
+                    alt={user.nickname}
+                  />
+                  <AvatarFallback>{user.nickname.charAt(0)}</AvatarFallback>
+                </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>

@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -76,6 +77,23 @@ export default function Mypage() {
     }
   };
 
+  const onProfileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target && e.target.files) {
+      const formData = new FormData();
+      formData.append('file', e.target.files[0]);
+
+      const data = await fetchAuth('/api/file/profile/upload', 'POST', formData);
+
+      if (data.status === 'success') {
+        toast.success('프로필 사진 업로드에 성공하였습니다.');
+        window.location.reload();
+      } else if (data.status === 'error') {
+        toast.error('프로필 사진 업로드에 실패하였습니다.');
+        console.error(data);
+      }
+    }
+  };
+
   return (
     <>
       <Card className="mx-auto max-w-sm">
@@ -84,6 +102,21 @@ export default function Mypage() {
           <CardDescription>회원 정보를 수정하세요</CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="flex justify-center items-center my-4">
+            <Avatar className="relative w-32 h-32 border">
+              <AvatarImage
+                src={import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${user.id}`}
+                alt={user.nickname}
+              />
+              <AvatarFallback className="text-5xl">{user.nickname.charAt(0)}</AvatarFallback>
+              <input
+                type="file"
+                accept="image/*"
+                className="absolute inset-0 cursor-pointer opacity-0"
+                onChange={onProfileChange}
+              />
+            </Avatar>
+          </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-4">

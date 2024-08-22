@@ -32,6 +32,7 @@ async function refreshAccessToken() {
 
 async function fetchAuth(url: string, method: string, payload?: object) {
   const token = localStorage.getItem('token');
+  const isFormData = payload instanceof FormData;
 
   if (!token) {
     throw new Error('로그인 필요');
@@ -42,9 +43,9 @@ async function fetchAuth(url: string, method: string, payload?: object) {
     credentials: 'include',
     headers: {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
     },
-    body: JSON.stringify(payload),
+    body: isFormData ? payload : JSON.stringify(payload),
   });
 
   if (response.status === 401) {
@@ -53,9 +54,9 @@ async function fetchAuth(url: string, method: string, payload?: object) {
       credentials: 'include',
       headers: {
         Authorization: `Bearer ${await refreshAccessToken()}`,
-        'Content-Type': 'application/json',
+        ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
       },
-      body: JSON.stringify(payload),
+      body: isFormData ? payload : JSON.stringify(payload),
     });
   }
 
