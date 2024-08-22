@@ -2,9 +2,14 @@ import { z } from 'zod';
 
 const schema = z
   .object({
-    id: z.string({ required_error: '아이디는 필수 입력 항목입니다' }).max(32, {
-      message: '아이디 길이는 최대 32 글자입니다',
-    }),
+    id: z
+      .string({ required_error: '아이디는 필수 입력 항목입니다' })
+      .max(32, {
+        message: '아이디 길이는 최대 32 글자입니다',
+      })
+      .regex(/^[a-zA-Z0-9]/, {
+        message: '아이디는 영문, 숫자만 포함할 수 있습니다.',
+      }),
     password: z
       .string({ required_error: '비밀번호는 필수 입력 항목입니다' })
       .regex(/^(?=.*[a-zA-Z])/, '비밀번호는 영문자를 포함해야 합니다')
