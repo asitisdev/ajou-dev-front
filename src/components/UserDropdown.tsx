@@ -24,7 +24,7 @@ export default function UserDropdown({ nickname, id, className }: Props) {
         <DropdownMenuItem asChild>
           <Link to={`/members/${id}/posts`}>작성한 게시글</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link to={`/members/${id}/comments`}>작성한 댓글</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
