@@ -104,7 +104,7 @@ export default function Main() {
               <Skeleton className="h-3.5 w-[100px]" />
             )}
           </div>
-          {post?.id === user.id && (
+          {post?.id === user?.id && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost">

@@ -139,7 +139,7 @@ export default function CommentList() {
                                     {relativeTime(comment.commentingDate)}
                                   </div>
                                   <div className="ml-auto flex gap-1">
-                                    {user && user.id === myInfo.id && (
+                                    {user && user.id === myInfo?.id && (
                                       <Button
                                         onClick={() => {
                                           setDialogOpen(true);

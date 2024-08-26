@@ -35,11 +35,11 @@ export default function Mypage() {
 
   React.useEffect(() => {
     form.reset({
-      id: user.id,
-      nickname: user.nickname,
+      id: user?.id,
+      nickname: user?.nickname,
       password: 'DEFAULT_PASSW0RD',
       confirmPassword: 'DEFAULT_PASSW0RD',
-      email: user.email,
+      email: user?.email,
     });
   }, [user, form]);
 
@@ -49,6 +49,7 @@ export default function Mypage() {
 
   const handleConfirm = async () => {
     if (/^[ㄱ-ㅎ가-힣]*$/.test(password)) return;
+    if (user === null) return;
 
     setPassword('');
     setOpen(false);
@@ -112,10 +113,10 @@ export default function Mypage() {
           <div className="flex justify-center items-center my-4">
             <Avatar className="relative w-32 h-32 border">
               <AvatarImage
-                src={user.id && import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${user.id}`}
-                alt={user.nickname}
+                src={user?.id && import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${user?.id}`}
+                alt={user?.nickname}
               />
-              <AvatarFallback className="text-5xl">{user.nickname.charAt(0)}</AvatarFallback>
+              <AvatarFallback className="text-5xl">{user?.nickname.charAt(0)}</AvatarFallback>
               <input
                 type="file"
                 accept="image/*"

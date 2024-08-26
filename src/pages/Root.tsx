@@ -131,24 +131,24 @@ export default function Root() {
               <DropdownMenuTrigger asChild>
                 <Avatar className="w-10 h-10 border">
                   <AvatarImage
-                    src={user.id && import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${user.id}`}
-                    alt={user.nickname}
+                    src={user?.id && import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${user?.id}`}
+                    alt={user?.nickname}
                   />
-                  <AvatarFallback>{user.nickname.charAt(0)}</AvatarFallback>
+                  <AvatarFallback>{user?.nickname.charAt(0)}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
                   <Link to="/mypage" className="font-semibold">
-                    {user.nickname}
+                    {user?.nickname}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to={`/members/${user.id}/posts`}>내가 쓴 게시글</Link>
+                  <Link to={`/members/${user?.id}/posts`}>내가 쓴 게시글</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link to={`/members/${user.id}/comments`}>내가 쓴 댓글</Link>
+                  <Link to={`/members/${user?.id}/comments`}>내가 쓴 댓글</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => logout()}>로그아웃</DropdownMenuItem>

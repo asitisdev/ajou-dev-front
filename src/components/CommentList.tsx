@@ -90,7 +90,7 @@ export default function CommentList({ comments, onCommentsChange }: CommentProps
                                   대댓글
                                 </Button>
                               )}
-                              {user.id === comment.id && (
+                              {user?.id === comment.id && (
                                 <Button
                                   onClick={() => {
                                     setOpen(true);

@@ -117,7 +117,7 @@ async function logout() {
 
 type AuthContextType = {
   isAuth: boolean;
-  user: User;
+  user: User | null;
   setUser: (user: User) => void;
   fetchAuth: (url: string, method: string, payload?: object) => Promise<any>;
   login: (values: { id: string; password: string }) => Promise<boolean>;
@@ -128,7 +128,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuth, setIsAuth] = useState(false);
-  const [user, setUser] = useState({ nickname: '', id: '', email: '', joiningDate: '' });
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -139,7 +139,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(JSON.parse(user));
     } else {
       setIsAuth(false);
-      setUser({ nickname: '', id: '', email: '', joiningDate: '' });
+      setUser(null);
     }
   }, []);
 
@@ -157,7 +157,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const handleLogout = async () => {
     await logout();
     setIsAuth(false);
-    setUser({ nickname: '', id: '', email: '', joiningDate: '' });
+    setUser(null);
   };
 
   return (
