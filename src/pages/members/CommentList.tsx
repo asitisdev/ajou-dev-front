@@ -125,7 +125,7 @@ export default function CommentList() {
               {comments.map((comment, index) =>
                 comment ? (
                   <TableRow key={index}>
-                    <TableCell className="">
+                    <TableCell>
                       <div className="flex gap-4 mb-3">
                         <div className="w-full border rounded-lg p-4" key={comment.commentNum}>
                           {comment.id === null ? (
@@ -160,10 +160,13 @@ export default function CommentList() {
                         </div>
                       </div>
                       <div>
-                        <Button variant="link" className="h-auto py-0 px-2" asChild>
-                          <Link to={`/freeboard/${comment.postNum}`}>"{comment.postTitle}"</Link>
-                        </Button>
-                        에 남긴 댓글{' '}
+                        <Link
+                          to={`/freeboard/${comment.postNum}`}
+                          className="px-1 py-1 font-medium text-primary underline underline-offset-4"
+                        >
+                          {comment.postTitle}
+                        </Link>
+                        에 남긴 댓글
                       </div>
                     </TableCell>
                   </TableRow>
