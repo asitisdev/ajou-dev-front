@@ -12,6 +12,7 @@ import FreeboardEdit from './pages/FreeboardEdit.tsx';
 import Freeboard from './pages/Freeboard.tsx';
 import PostList from './pages/members/PostList.tsx';
 import CommentList from './pages/members/CommentList.tsx';
+import LikeList from './pages/members/LikeList.tsx';
 
 export default function AppRoutes() {
   const { isAuth } = useAuth();
@@ -27,6 +28,7 @@ export default function AppRoutes() {
         <Route path="/freeboard/write" element={isAuth ? <FreeboardWrite /> : <Navigate to="/login" />}></Route>
         <Route path="/freeboard/:postNum" element={<Freeboard />}></Route>
         <Route path="/freeboard/:postNum/edit" element={<FreeboardEdit />}></Route>
+        <Route path="/members/:userId/likes" element={<LikeList />}></Route>
         <Route path="/members/:userId/posts" element={<PostList />}></Route>
         <Route path="/members/:userId/comments" element={<CommentList />}></Route>
         <Route path="/*" element={<NotFound />}></Route>

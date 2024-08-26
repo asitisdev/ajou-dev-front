@@ -150,6 +150,9 @@ export default function Root() {
                 <DropdownMenuItem>
                   <Link to={`/members/${user?.id}/comments`}>내가 쓴 댓글</Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to={`/members/${user?.id}/likes`}>나의 좋아요 목록</Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => logout()}>로그아웃</DropdownMenuItem>
               </DropdownMenuContent>
