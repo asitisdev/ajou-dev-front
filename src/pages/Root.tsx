@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, Wrench, Search, UserRound, MessageCircle, MessageCircleQuestion, Users, Paperclip } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/sonner';
@@ -19,9 +19,18 @@ import { cn } from '@/lib/utils';
 
 export default function Root() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isAuth, user, logout } = useAuth();
-
   const [open, setOpen] = React.useState(false);
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const keyword = new FormData(form).get('keyword');
+
+    navigate(`/search/?keyword=${keyword}`);
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -120,10 +129,10 @@ export default function Root() {
           </Link>
         </nav>
         <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-          <form className="ml-auto flex-1 sm:flex-initial">
+          <form onSubmit={onSubmit} className="ml-auto flex-1 sm:flex-initial">
             <div className="relative hidden md:flex">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input type="search" placeholder="검색..." className="pl-8 md:w-[170px] lg:w-[300px]" />
+              <Input type="search" name="keyword" placeholder="검색..." className="pl-8 md:w-[170px] lg:w-[300px]" />
             </div>
           </form>
           {isAuth ? (
