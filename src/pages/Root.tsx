@@ -128,7 +128,7 @@ export default function Root() {
           </form>
           {isAuth ? (
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+              <DropdownMenuTrigger asChild className="cursor-pointer">
                 <Avatar className="w-10 h-10 border">
                   <AvatarImage
                     src={user?.id && import.meta.env.VITE_API_URL + `/api/file/profile/download?user=${user?.id}`}
@@ -138,23 +138,25 @@ export default function Root() {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="cursor-pointer">
                   <Link to="/mypage" className="font-semibold">
                     {user?.nickname}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="cursor-pointer">
                   <Link to={`/members/${user?.id}/posts`}>내가 쓴 게시글</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer">
                   <Link to={`/members/${user?.id}/comments`}>내가 쓴 댓글</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer">
                   <Link to={`/members/${user?.id}/likes`}>나의 좋아요 목록</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => logout()}>로그아웃</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => logout()} className="cursor-pointer">
+                  로그아웃
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (

@@ -21,10 +21,10 @@ export default function UserDropdown({ nickname, id, className }: Props) {
       <DropdownMenuContent>
         <DropdownMenuLabel>{`${nickname} (${id})`}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild className="cursor-pointer">
           <Link to={`/members/${id}/posts`}>작성한 게시글</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild className="cursor-pointer">
           <Link to={`/members/${id}/comments`}>작성한 댓글</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
