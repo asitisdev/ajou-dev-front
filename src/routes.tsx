@@ -22,7 +22,7 @@ export default function AppRoutes() {
         <Route index element={<Main />}></Route>
         <Route path="/login" element={isAuth ? <Navigate to="/" /> : <Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/mypage" element={<Mypage />}></Route>
+        <Route path="/mypage" element={isAuth ? <Mypage /> : <Navigate to="/login" />}></Route>
         <Route path="/freeboard" element={<FreeboardList />}></Route>
         <Route path="/freeboard/write" element={isAuth ? <FreeboardWrite /> : <Navigate to="/login" />}></Route>
         <Route path="/freeboard/:postNum" element={<Freeboard />}></Route>

@@ -25,7 +25,7 @@ import formSchema from '@/schemas/user';
 
 export default function Mypage() {
   const { setDialog } = useDialog();
-  const { user, setUser, fetchAuth, logout, login } = useAuth();
+  const { user, setUser, fetchAuth, login } = useAuth();
   const [open, setOpen] = React.useState(false);
   const [password, setPassword] = React.useState('');
 
@@ -68,7 +68,6 @@ export default function Mypage() {
       setUser(data.user);
 
       if (values.id) {
-        await logout();
         await login({ id: data.user.id, password });
       }
 
