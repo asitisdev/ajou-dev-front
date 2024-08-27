@@ -107,6 +107,7 @@ async function logout() {
     body: null,
   });
 
+  localStorage.removeItem('user');
   localStorage.removeItem('token');
   localStorage.removeItem('refreshToken');
 
@@ -130,13 +131,36 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
+  function getExpirationDate(token: string | null) {
+    if (!token) return null;
+
+    const decoded = JSON.parse(atob(token.split('.')[1]));
+    if (!decoded.exp) return null;
+
+    return new Date(decoded.exp * 1000);
+  }
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
+    const expirationDate = getExpirationDate(localStorage.getItem('refreshToken')) || new Date();
 
     if (token && user) {
       setIsAuth(true);
       setUser(JSON.parse(user));
+
+      const now = new Date();
+      const timeUntilExpiration = expirationDate.getTime() - now.getTime();
+
+      if (timeUntilExpiration > 0) {
+        const timerId = setTimeout(() => {
+          handleLogout();
+        }, timeUntilExpiration);
+
+        return () => clearTimeout(timerId);
+      } else {
+        handleLogout();
+      }
     } else {
       setIsAuth(false);
       setUser(null);
