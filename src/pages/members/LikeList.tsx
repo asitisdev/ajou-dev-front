@@ -39,7 +39,7 @@ export default function LikeList() {
   const page = parseInt(searchParams.get('page') || '1');
 
   React.useEffect(() => {
-    if (myInfo !== null && userId !== myInfo.id) {
+    if (myInfo !== undefined && userId !== myInfo?.id) {
       toast.error('자신의 좋아요 목록만 확인할 수 있습니다');
       navigation('/');
     }

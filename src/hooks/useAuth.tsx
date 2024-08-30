@@ -118,7 +118,7 @@ async function logout() {
 
 type AuthContextType = {
   isAuth: boolean;
-  user: User | null;
+  user: User | null | undefined;
   setUser: (user: User) => void;
   fetchAuth: (url: string, method: string, payload?: object) => Promise<any>;
   login: (values: { id: string; password: string }) => Promise<boolean>;
@@ -129,7 +129,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuth, setIsAuth] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null | undefined>(undefined);
 
   function getExpirationDate(token: string | null) {
     if (!token) return null;

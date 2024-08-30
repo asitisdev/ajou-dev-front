@@ -49,7 +49,7 @@ export default function Mypage() {
 
   const handleConfirm = async () => {
     if (/^[ㄱ-ㅎ가-힣]*$/.test(password)) return;
-    if (user === null) return;
+    if (user === null || user === undefined) return;
 
     setPassword('');
     setOpen(false);
