@@ -178,9 +178,16 @@ export default function CommentList() {
                   </TableRow>
                 )
               )}
+              {comments.length == 0 && (
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <div className="text-center text-muted-foreground">아직 작성한 댓글이 없습니다 </div>
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
-          {pageInfo && (
+          {pageInfo && pageInfo.totalPages !== 0 && (
             <div className="mx-auto flex w-full justify-center gap-1 mt-4">
               <PaginationPrevious
                 to={`?page=${page - 1}`}
