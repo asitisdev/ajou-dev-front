@@ -11,6 +11,7 @@ import FreeboardList from './pages/freeboard/FreeboardList.tsx';
 import FreeboardWrite from './pages/freeboard/FreeboardWrite.tsx';
 import FreeboardEdit from './pages/freeboard/FreeboardEdit.tsx';
 import Freeboard from './pages/freeboard/Freeboard.tsx';
+import QuestionList from './pages/question/QuestionList.tsx';
 import PostList from './pages/members/PostList.tsx';
 import CommentList from './pages/members/CommentList.tsx';
 import LikeList from './pages/members/LikeList.tsx';
@@ -26,10 +27,14 @@ export default function AppRoutes() {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/mypage" element={isAuth ? <Mypage /> : <Navigate to="/login" />}></Route>
         <Route path="/search" element={<SearchList />}></Route>
+
         <Route path="/freeboard" element={<FreeboardList />}></Route>
         <Route path="/freeboard/write" element={isAuth ? <FreeboardWrite /> : <Navigate to="/login" />}></Route>
         <Route path="/freeboard/:postNum" element={<Freeboard />}></Route>
         <Route path="/freeboard/:postNum/edit" element={<FreeboardEdit />}></Route>
+
+        <Route path="/question" element={<QuestionList />}></Route>
+
         <Route path="/members/:userId/likes" element={<LikeList />}></Route>
         <Route path="/members/:userId/posts" element={<PostList />}></Route>
         <Route path="/members/:userId/comments" element={<CommentList />}></Route>
