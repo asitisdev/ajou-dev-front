@@ -184,8 +184,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   };
 
+  const handleFetchAuth = async (url: string, method: string, payload?: object) => {
+    try {
+      return await fetchAuth(url, method, payload);
+    } catch (error) {
+      await handleLogout();
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuth, user, setUser, fetchAuth, login: handleLogin, logout: handleLogout }}>
+    <AuthContext.Provider
+      value={{ isAuth, user, setUser, fetchAuth: handleFetchAuth, login: handleLogin, logout: handleLogout }}
+    >
       {children}
     </AuthContext.Provider>
   );
