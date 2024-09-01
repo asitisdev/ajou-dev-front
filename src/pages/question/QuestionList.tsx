@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { SquarePen, MessageSquare, ThumbsUp } from 'lucide-react';
+import { SquarePen, MessageSquareText, ThumbsUp } from 'lucide-react';
 import { Card, CardHeader, CardDescription, CardTitle, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import UserDropdown from '@/components/UserDropdown';
 import { cn } from '@/lib/utils';
-import { Post } from '@/types';
+import { Question } from '@/types';
 
 interface PageInfo {
   first: boolean;
@@ -27,7 +27,7 @@ interface PageInfo {
 
 export default function QuestionList() {
   const [searchParams] = useSearchParams();
-  const [questions, setQuestions] = React.useState<Array<Post | null>>([
+  const [questions, setQuestions] = React.useState<Array<Question | null>>([
     null,
     null,
     null,
@@ -88,31 +88,31 @@ export default function QuestionList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {questions.map((post, index) =>
-              post ? (
-                <TableRow key={post.postNum}>
-                  <TableCell className="text-center ellipsis">{post.visit}</TableCell>
+            {questions.map((question, index) =>
+              question ? (
+                <TableRow key={question.postNum}>
+                  <TableCell className="text-center ellipsis">{question.visit}</TableCell>
                   <TableCell className="ellipsis">
-                    <Link to={`./${post.postNum}`} className="flex items-center w-full h-full">
-                      <span className="mr-1">{post.title}</span>
-                      {post.comment != 0 && (
+                    <Link to={`./${question.postNum}`} className="flex items-center w-full h-full">
+                      <span className="mr-1">{question.title}</span>
+                      {question.answer != 0 && (
                         <Badge variant="secondary" className="ml-1">
-                          <MessageSquare className="w-3 h-3 mr-1" />
-                          {post.comment}
+                          <MessageSquareText className="w-3 h-3 mr-1" />
+                          {question.answer}
                         </Badge>
                       )}
-                      {post.like != 0 && (
+                      {question.like != 0 && (
                         <Badge variant="secondary" className="ml-1">
                           <ThumbsUp className="w-3 h-3 mr-1" />
-                          {post.like}
+                          {question.like}
                         </Badge>
                       )}
                     </Link>
                   </TableCell>
                   <TableCell className="text-center ellipsis">
-                    <UserDropdown id={post.id} nickname={post.user} />
+                    <UserDropdown id={question.id} nickname={question.user} />
                   </TableCell>
-                  <TableCell className="text-center ellipsis">{formatDate(post.postingDate)}</TableCell>
+                  <TableCell className="text-center ellipsis">{formatDate(question.postingDate)}</TableCell>
                 </TableRow>
               ) : (
                 <TableRow key={index}>

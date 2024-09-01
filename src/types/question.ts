@@ -9,6 +9,7 @@ export interface Question {
   visit: number;
   postingDate: string;
   comment: number;
+  answer: number;
 }
 
 export interface Answer {
