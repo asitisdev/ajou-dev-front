@@ -14,12 +14,12 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import UserDropdown from '@/components/UserDropdown';
-import { useAuth } from '@/hooks/useAuth';
-import { relativeTime } from '@/lib/utils';
-import { CommentProps } from '@/types';
 import CommentWrite from '@/components/CommentWrite';
+import { useAuth } from '@/hooks/useAuth';
+import { cn, relativeTime } from '@/lib/utils';
+import { CommentProps } from '@/types';
 
-export default function CommentList({ comments, onCommentsChange }: CommentProps) {
+export default function CommentList({ comments, onCommentsChange, className }: CommentProps) {
   const { user, isAuth, fetchAuth } = useAuth();
   const [replyingTo, setReplyingTo] = React.useState<number | null>(null);
   const [deleting, setDeleting] = React.useState<number | null>(null);
@@ -54,7 +54,7 @@ export default function CommentList({ comments, onCommentsChange }: CommentProps
 
   return (
     <>
-      <div className="space-y-4">
+      <div className={cn('space-y-4', className)}>
         <div className="space-y-4">
           <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">댓글</h3>
           <div className="space-y-2">
