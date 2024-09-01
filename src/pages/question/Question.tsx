@@ -219,7 +219,7 @@ export default function Question() {
         </Card>
       ))}
 
-      <AnswerWrite onAnswersChange={setAnswers} />
+      {isAuth && <AnswerWrite onAnswersChange={setAnswers} />}
 
       <AlertDialog
         open={deleting !== undefined}
