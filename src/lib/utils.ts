@@ -14,3 +14,17 @@ export function relativeTime(timestamp: string): string {
   if (timeElapsed < 604800) return `${Math.floor(timeElapsed / 86400)}일 전`;
   return new Date(timestamp).toISOString().slice(0, 10);
 }
+
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+
+  return date
+    .toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+    .replace(',', '');
+}

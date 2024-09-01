@@ -13,6 +13,7 @@ import FreeboardEdit from './pages/freeboard/FreeboardEdit.tsx';
 import Freeboard from './pages/freeboard/Freeboard.tsx';
 import QuestionList from './pages/question/QuestionList.tsx';
 import QuestionWrite from './pages/question/QuestionWrite.tsx';
+import Question from './pages/question/Question.tsx';
 import PostList from './pages/members/PostList.tsx';
 import CommentList from './pages/members/CommentList.tsx';
 import LikeList from './pages/members/LikeList.tsx';
@@ -36,6 +37,7 @@ export default function AppRoutes() {
 
         <Route path="/question" element={<QuestionList />}></Route>
         <Route path="/question/write" element={<QuestionWrite />}></Route>
+        <Route path="/question/:postNum" element={<Question />}></Route>
 
         <Route path="/members/:userId/likes" element={<LikeList />}></Route>
         <Route path="/members/:userId/posts" element={<PostList />}></Route>

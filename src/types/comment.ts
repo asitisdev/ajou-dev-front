@@ -10,4 +10,5 @@ export interface Comment {
 export interface CommentProps {
   comments: Array<Comment>;
   onCommentsChange: React.Dispatch<React.SetStateAction<Array<Comment>>>;
+  className?: string;
 }
