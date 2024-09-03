@@ -2,8 +2,8 @@ export interface Question {
   postNum: number;
   title: string;
   textBody: string;
-  user: string;
-  id: string;
+  user: string | null;
+  id: string | null;
   liked: boolean;
   like: number;
   visit: number;

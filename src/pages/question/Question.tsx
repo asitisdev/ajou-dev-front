@@ -115,7 +115,7 @@ export default function Question() {
             {question ? <CardTitle>{question.title}</CardTitle> : <Skeleton className="h-6 w-[400px]" />}
             {question ? (
               <CardDescription className="flex flex-row gap-2">
-                <span>{question.user}</span>
+                <span>{question.user || '익명'}</span>
                 <span>|</span>
                 <span>{`${relativeTime(question.postingDate)} 작성`}</span>
                 <span>|</span>
