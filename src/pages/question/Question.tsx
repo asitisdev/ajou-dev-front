@@ -68,6 +68,30 @@ export default function Question() {
     }
   };
 
+  const handleUpvote = async (postNum: number) => {
+    const data = await fetchAuth(`/api/like/answer?post=${postNum}`, 'GET');
+
+    if (data.status === 'success') {
+      toast.success('답변을 추천합니다');
+      setAnswers((prev) => prev.map((answer) => (answer.postNum === data.answer.postNum ? data.answer : answer)));
+    } else {
+      console.log(data);
+      toast.error(data.message);
+    }
+  };
+
+  const handleDownvote = async (postNum: number) => {
+    const data = await fetchAuth(`/api/dislike/answer?post=${postNum}`, 'GET');
+
+    if (data.status === 'success') {
+      toast.warning('답변을 비추천합니다');
+      setAnswers((prev) => prev.map((answer) => (answer.postNum === data.answer.postNum ? data.answer : answer)));
+    } else {
+      console.log(data);
+      toast.error(data.message);
+    }
+  };
+
   const handleDelete = async () => {
     const data = await fetchAuth(
       `/api/${deleting === question?.postNum ? 'question' : 'answer'}/delete?post=${deleting}`,
@@ -195,9 +219,19 @@ export default function Question() {
             {answer ? (
               <div className="flex items-start gap-4">
                 <div className="flex flex-col items-center gap-2 text-gray-500">
-                  <ThumbsUp className="h-5 w-5" />
-                  <span>{answer.like}</span>
-                  <ThumbsDown className="h-5 w-5" />
+                  <ThumbsUp
+                    className={`h-5 w-5 cursor-pointer transition-transform ${
+                      answer.isLiked ? 'text-primary transform scale-110' : 'text-gray-500'
+                    }`}
+                    onClick={() => handleUpvote(answer.postNum)}
+                  />
+                  <span>{answer.like - answer.dislike}</span>
+                  <ThumbsDown
+                    className={`h-5 w-5 cursor-pointer transition-transform ${
+                      answer.isDisliked ? 'text-primary transform scale-110' : 'text-gray-500'
+                    }`}
+                    onClick={() => handleDownvote(answer.postNum)}
+                  />
                 </div>
                 <div className="flex-1">
                   <p className="text-gray-700 mt-2">{answer.textBody}</p>
