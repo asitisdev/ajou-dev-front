@@ -72,7 +72,8 @@ export default function Question() {
     const data = await fetchAuth(`/api/like/answer?post=${postNum}`, 'GET');
 
     if (data.status === 'success') {
-      toast.success('답변을 추천합니다');
+      if (data.answer.isLiked) toast.success('답변을 추천합니다');
+      else toast.warning('답변 추천을 취소했습니다');
       setAnswers((prev) => prev.map((answer) => (answer.postNum === data.answer.postNum ? data.answer : answer)));
     } else {
       console.log(data);
@@ -84,7 +85,8 @@ export default function Question() {
     const data = await fetchAuth(`/api/dislike/answer?post=${postNum}`, 'GET');
 
     if (data.status === 'success') {
-      toast.warning('답변을 비추천합니다');
+      if (data.answer.isDisliked) toast.error('답변을 비추천합니다');
+      else toast.warning('답변 비추천을 취소했습니다');
       setAnswers((prev) => prev.map((answer) => (answer.postNum === data.answer.postNum ? data.answer : answer)));
     } else {
       console.log(data);
