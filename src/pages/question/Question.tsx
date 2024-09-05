@@ -24,6 +24,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
 import AnswerWrite from '@/components/AnswerWrite';
+import UserDropdown from '@/components/UserDropdown';
 import { relativeTime } from '@/lib/utils';
 import { Question as QuestionType, Answer, AnswersInfo } from '@/types';
 
@@ -137,7 +138,7 @@ export default function Question() {
             {question ? <CardTitle>{question.title}</CardTitle> : <Skeleton className="h-6 w-[400px]" />}
             {question ? (
               <CardDescription className="flex flex-row gap-2">
-                <span>{question.user || '익명'}</span>
+                <UserDropdown nickname={question.user} id={question.id} />
                 <span>|</span>
                 <span>{`${relativeTime(question.postingDate)} 작성`}</span>
                 <span>|</span>
@@ -207,7 +208,7 @@ export default function Question() {
               {answer ? <CardTitle>{answer.title}</CardTitle> : <Skeleton className="h-6 w-[400px]" />}
               {answer ? (
                 <CardDescription className="flex flex-row gap-2">
-                  <span>{answer.user}</span>
+                  <UserDropdown nickname={answer.user} id={answer.id} />
                   <span>|</span>
                   <span>{`${relativeTime(answer.postingDate)} 작성`}</span>
                 </CardDescription>

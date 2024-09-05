@@ -110,11 +110,7 @@ export default function QuestionList() {
                     </Link>
                   </TableCell>
                   <TableCell className="text-center ellipsis">
-                    {question.id === null || question.user === null ? (
-                      <span>익명</span>
-                    ) : (
-                      <UserDropdown id={question.id} nickname={question.user} />
-                    )}
+                    <UserDropdown id={question.id} nickname={question.user} />
                   </TableCell>
                   <TableCell className="text-center ellipsis">{formatDate(question.postingDate)}</TableCell>
                 </TableRow>
