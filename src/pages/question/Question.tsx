@@ -31,7 +31,8 @@ export default function Question() {
   const navigate = useNavigate();
   const { postNum } = useParams();
   const { isAuth, user, fetchAuth } = useAuth();
-  const [deleting, setDeleting] = React.useState<number | undefined>(undefined);
+  const [deleting, setDeleting] = React.useState<number | null>(null);
+  const [nextPage, setNextPage] = React.useState<number | null>(null);
   const [question, setQuestion] = React.useState<QuestionType | null>(null);
   const [answers, setAnswers] = React.useState<Array<Answer>>([]);
 
@@ -46,14 +47,31 @@ export default function Question() {
       if (data.status === 'success') {
         setQuestion(data.post);
         setAnswers(data.answers.content);
+        if (!data.answers.last) setNextPage(1);
       } else if (data.status === 'error') {
         toast.error(data.message);
-        navigate('/freeboard');
+        navigate('/question');
       }
     };
 
     fetchData();
   }, [isAuth]);
+
+  const handleNextPage = async () => {
+    const data = isAuth
+      ? await fetchAuth(`/api/answer/list?post=${postNum}&page=${nextPage}`, 'GET')
+      : await fetch(import.meta.env.VITE_API_URL + `/api/answer/list?post=${postNum}&page=${nextPage}`, {
+          method: 'GET',
+        }).then((response) => response.json());
+
+    if (data.status === 'success') {
+      setAnswers((prev) => [...prev, ...data.answers.content]);
+      if (!data.answers.last) setNextPage((prev) => prev! + 1);
+      else setNextPage(null);
+    } else if (data.status === 'error') {
+      toast.error(data.message);
+    }
+  };
 
   const handleLike = async () => {
     const data = await fetchAuth(`/api/like?post=${postNum}`, 'GET');
@@ -127,7 +145,7 @@ export default function Question() {
               <Skeleton className="h-3.5 w-[100px]" />
             )}
           </div>
-          {question?.id === user?.id && (
+          {question && question.id === user?.id && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost">
@@ -141,7 +159,7 @@ export default function Question() {
                     수정하기
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setDeleting(question?.postNum)}>
+                <DropdownMenuItem onClick={() => setDeleting(question.postNum)}>
                   <Trash2 className="mr-2 h-4 w-4" />
                   삭제하기
                 </DropdownMenuItem>
@@ -255,12 +273,15 @@ export default function Question() {
         </Card>
       ))}
 
+      {nextPage && (
+        <Button variant="outline" onClick={() => handleNextPage()}>
+          답변 더보기
+        </Button>
+      )}
+
       {isAuth && <AnswerWrite onAnswersChange={setAnswers} />}
 
-      <AlertDialog
-        open={deleting !== undefined}
-        onOpenChange={(open) => (open ? setDeleting(0) : setDeleting(undefined))}
-      >
+      <AlertDialog open={deleting !== null} onOpenChange={(open) => (open ? setDeleting(0) : setDeleting(null))}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>게시글 삭제</AlertDialogTitle>
