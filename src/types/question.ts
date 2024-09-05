@@ -30,3 +30,8 @@ export interface AnswerProps {
   onAnswersChange: React.Dispatch<React.SetStateAction<Array<Answer>>>;
   className?: string;
 }
+
+export interface AnswersInfo {
+  totalElements: number;
+  nextPage: number | null;
+}

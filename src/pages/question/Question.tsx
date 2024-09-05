@@ -25,16 +25,16 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
 import AnswerWrite from '@/components/AnswerWrite';
 import { relativeTime } from '@/lib/utils';
-import { Question as QuestionType, Answer } from '@/types';
+import { Question as QuestionType, Answer, AnswersInfo } from '@/types';
 
 export default function Question() {
   const navigate = useNavigate();
   const { postNum } = useParams();
   const { isAuth, user, fetchAuth } = useAuth();
   const [deleting, setDeleting] = React.useState<number | null>(null);
-  const [nextPage, setNextPage] = React.useState<number | null>(null);
   const [question, setQuestion] = React.useState<QuestionType | null>(null);
   const [answers, setAnswers] = React.useState<Array<Answer>>([]);
+  const [answersInfo, setAnswersInfo] = React.useState<AnswersInfo | null>(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +47,10 @@ export default function Question() {
       if (data.status === 'success') {
         setQuestion(data.post);
         setAnswers(data.answers.content);
-        if (!data.answers.last) setNextPage(1);
+        setAnswersInfo({
+          totalElements: data.answers.totalElements,
+          nextPage: data.answers.last ? null : 1,
+        });
       } else if (data.status === 'error') {
         toast.error(data.message);
         navigate('/question');
@@ -59,15 +62,14 @@ export default function Question() {
 
   const handleNextPage = async () => {
     const data = isAuth
-      ? await fetchAuth(`/api/answer/list?post=${postNum}&page=${nextPage}`, 'GET')
-      : await fetch(import.meta.env.VITE_API_URL + `/api/answer/list?post=${postNum}&page=${nextPage}`, {
+      ? await fetchAuth(`/api/answer/list?post=${postNum}&page=${answersInfo!.nextPage}`, 'GET')
+      : await fetch(import.meta.env.VITE_API_URL + `/api/answer/list?post=${postNum}&page=${answersInfo!.nextPage}`, {
           method: 'GET',
         }).then((response) => response.json());
 
     if (data.status === 'success') {
       setAnswers((prev) => [...prev, ...data.answers.content]);
-      if (!data.answers.last) setNextPage((prev) => prev! + 1);
-      else setNextPage(null);
+      setAnswersInfo((prev) => ({ ...prev!, nextPage: data.answers.last ? null : prev!.nextPage! + 1 }));
     } else if (data.status === 'error') {
       toast.error(data.message);
     }
@@ -192,10 +194,10 @@ export default function Question() {
 
       {answers.map((answer, index) => (
         <Card className="w-full max-w-2xl lg:max-w-5xl xl:max-w-7xl" key={answer.postNum}>
-          {index === 0 && (
+          {answersInfo && index === 0 && (
             <>
               <div className="flex flex-col space-y-1.5 px-6 py-4">
-                <h2 className="scroll-m-20 text-xl font-semibold tracking-tight">{`${answers.length}개의 답변`}</h2>
+                <h2 className="scroll-m-20 text-xl font-semibold tracking-tight">{`${answersInfo.totalElements}개의 답변`}</h2>
               </div>
               <Separator />
             </>
@@ -273,7 +275,7 @@ export default function Question() {
         </Card>
       ))}
 
-      {nextPage && (
+      {answersInfo?.nextPage && (
         <Button variant="outline" onClick={() => handleNextPage()}>
           답변 더보기
         </Button>
