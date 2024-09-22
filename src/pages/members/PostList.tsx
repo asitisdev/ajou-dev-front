@@ -105,9 +105,7 @@ export default function PostList() {
               post ? (
                 <TableRow key={post.postNum}>
                   <TableCell className="text-center ellipsis">
-                    <Badge variant="outline" className="ml-1">
-                      {boardName[post.board]}
-                    </Badge>
+                    <Badge variant="outline">{boardName[post.board]}</Badge>
                   </TableCell>
                   <TableCell className="ellipsis">
                     <Link to={`${boardUrl[post.board]}/${post.postNum}`} className="flex items-center w-full h-full">
