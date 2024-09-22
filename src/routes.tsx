@@ -6,6 +6,7 @@ import Main from './pages/Main.tsx';
 import Login from './pages/Login.tsx';
 import Signup from './pages/Signup.tsx';
 import Mypage from './pages/Mypage.tsx';
+import ChangePW from './pages/ChangePW.tsx';
 import SearchList from './pages/SearchList.tsx';
 import FreeboardList from './pages/freeboard/FreeboardList.tsx';
 import FreeboardWrite from './pages/freeboard/FreeboardWrite.tsx';
@@ -28,6 +29,7 @@ export default function AppRoutes() {
         <Route path="/login" element={isAuth ? <Navigate to="/" /> : <Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/mypage" element={isAuth ? <Mypage /> : <Navigate to="/login" />}></Route>
+        <Route path="/changepw" element={isAuth ? <ChangePW /> : <Navigate to="/login" />}></Route>
         <Route path="/search" element={<SearchList />}></Route>
 
         <Route path="/freeboard" element={<FreeboardList />}></Route>
