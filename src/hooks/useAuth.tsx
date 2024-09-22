@@ -128,7 +128,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(true);
   const [user, setUser] = useState<User | null | undefined>(undefined);
 
   function getExpirationDate(token: string | null) {
