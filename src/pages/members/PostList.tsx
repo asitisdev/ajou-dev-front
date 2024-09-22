@@ -16,13 +16,29 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { User, Post } from '@/types';
+import { User, Post as PostType } from '@/types';
+
+interface Post extends PostType {
+  board: 'Question' | 'Answer' | 'Normal';
+}
 
 interface PageInfo {
   first: boolean;
   last: boolean;
   totalPages: number;
 }
+
+const boardName: Record<Post['board'], string> = {
+  Question: '질문',
+  Answer: '답변',
+  Normal: '자유게시판',
+};
+
+const boardUrl: Record<Post['board'], string> = {
+  Question: '/question',
+  Answer: '/question',
+  Normal: '/freeboard',
+};
 
 export default function PostList() {
   const { userId } = useParams();
@@ -78,7 +94,7 @@ export default function PostList() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-20 text-center ellipsis">조회수</TableHead>
+              <TableHead className="w-28 text-center ellipsis">게시판</TableHead>
               <TableHead>제목</TableHead>
               <TableHead className="w-32 text-center ellipsis">작성자</TableHead>
               <TableHead className="w-32 text-center ellipsis">작성일</TableHead>
@@ -88,9 +104,13 @@ export default function PostList() {
             {posts.map((post, index) =>
               post ? (
                 <TableRow key={post.postNum}>
-                  <TableCell className="text-center ellipsis">{post.visit}</TableCell>
+                  <TableCell className="text-center ellipsis">
+                    <Badge variant="outline" className="ml-1">
+                      {boardName[post.board]}
+                    </Badge>
+                  </TableCell>
                   <TableCell className="ellipsis">
-                    <Link to={`/freeboard/${post.postNum}`} className="flex items-center w-full h-full">
+                    <Link to={`${boardUrl[post.board]}/${post.postNum}`} className="flex items-center w-full h-full">
                       <span className="mr-1">{post.title}</span>
                       {post.comment != 0 && (
                         <Badge variant="secondary" className="ml-1">
