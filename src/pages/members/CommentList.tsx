@@ -26,7 +26,13 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { cn, relativeTime } from '@/lib/utils';
-import { User, Comment } from '@/types';
+import { User, Comment as CommentType } from '@/types';
+
+interface Comment extends CommentType {
+  postNum: string;
+  postTitle: string;
+  board: 'Question' | 'Answer' | 'Normal';
+}
 
 interface PageInfo {
   first: boolean;
@@ -34,18 +40,18 @@ interface PageInfo {
   totalPages: number;
 }
 
+const boardUrl: Record<Comment['board'], string> = {
+  Question: '/question',
+  Answer: '/question',
+  Normal: '/freeboard',
+};
+
 export default function CommentList() {
   const { userId } = useParams();
   const { fetchAuth, user: myInfo } = useAuth();
   const [searchParams] = useSearchParams();
   const [user, setUser] = React.useState<User | null>(null);
-  const [comments, setComments] = React.useState<Array<(Comment & { postNum: string; postTitle: string }) | null>>([
-    null,
-    null,
-    null,
-    null,
-    null,
-  ]);
+  const [comments, setComments] = React.useState<Array<Comment | null>>([null, null, null, null, null]);
   const [pageInfo, setPageInfo] = React.useState<PageInfo | null>(null);
   const [open, setOpen] = React.useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
@@ -161,7 +167,7 @@ export default function CommentList() {
                       </div>
                       <div>
                         <Link
-                          to={`/freeboard/${comment.postNum}`}
+                          to={`${boardUrl[comment.board]}/${comment.postNum}`}
                           className="px-1 py-1 font-medium text-primary underline underline-offset-4"
                         >
                           {comment.postTitle}
