@@ -17,13 +17,29 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import UserDropdown from '@/components/UserDropdown';
 import { cn } from '@/lib/utils';
-import { Post } from '@/types';
+import { Post as PostType } from '@/types';
+
+interface Post extends PostType {
+  board: 'Question' | 'Answer' | 'Normal';
+}
 
 interface PageInfo {
   first: boolean;
   last: boolean;
   totalPages: number;
 }
+
+const boardName: Record<Post['board'], string> = {
+  Question: '질문',
+  Answer: '답변',
+  Normal: '자유게시판',
+};
+
+const boardUrl: Record<Post['board'], string> = {
+  Question: '/question',
+  Answer: '/question',
+  Normal: '/freeboard',
+};
 
 export default function SearchList() {
   const [searchParams] = useSearchParams();
@@ -93,7 +109,10 @@ export default function SearchList() {
                 <TableRow key={post.postNum}>
                   <TableCell className="text-center ellipsis">{post.visit}</TableCell>
                   <TableCell className="ellipsis">
-                    <Link to={`/freeboard/${post.postNum}`} className="flex items-center w-full h-full">
+                    <Link to={`${boardUrl[post.board]}/${post.postNum}`} className="flex items-center w-full h-full">
+                      <Badge variant="outline" className="mr-2">
+                        {boardName[post.board]}
+                      </Badge>
                       <span className="mr-1">{post.title}</span>
                       {post.comment != 0 && (
                         <Badge variant="secondary" className="ml-1">
