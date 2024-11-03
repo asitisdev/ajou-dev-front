@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://아주대.커뮤니티.한국',
+        target: 'https://ajou.h4ck.me',
         changeOrigin: true,
       },
     },
